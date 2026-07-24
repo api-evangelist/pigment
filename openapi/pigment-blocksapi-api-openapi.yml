@@ -1,0 +1,73 @@
+openapi: 3.0.4
+info:
+  title: Pigment External ApplicationApi BlocksApi API
+  version: v1-external
+security:
+- ApiKey: []
+tags:
+- name: BlocksApi
+paths:
+  /api/v1/blocks:
+    get:
+      tags:
+      - BlocksApi
+      description: Retrieve metrics and lists metadata
+      parameters:
+      - name: applicationId
+        in: query
+        description: The ID of the application ID to retrieve from.Í
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: The blocks metadata retrieval has succeeded
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BlockMetadata'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BlockMetadata'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BlockMetadata'
+        '401':
+          description: Unauthorized
+components:
+  schemas:
+    BlockMetadata:
+      required:
+      - id
+      - name
+      - type
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        type:
+          allOf:
+          - $ref: '#/components/schemas/BlockMetadataType'
+      additionalProperties: false
+    BlockMetadataType:
+      enum:
+      - DimensionList
+      - TransactionList
+      - Metric
+      - Table
+      type: string
+  securitySchemes:
+    ApiKey:
+      type: http
+      description: API Key Authorization header using the Bearer scheme.
+      scheme: bearer
+      bearerFormat: ApiKey

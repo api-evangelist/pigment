@@ -1,0 +1,66 @@
+openapi: 3.0.4
+info:
+  title: Pigment External ApplicationApi ImportConfigurationApi API
+  version: v1-external
+security:
+- ApiKey: []
+tags:
+- name: ImportConfigurationApi
+paths:
+  /api/v1/importConfigurations:
+    get:
+      tags:
+      - ImportConfigurationApi
+      description: Retrieve import configurations for the given block
+      parameters:
+      - name: applicationId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      - name: blockId
+        in: query
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: The import configurations retrieval succeeded
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImportConfiguration'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImportConfiguration'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImportConfiguration'
+        '401':
+          description: Unauthorized
+components:
+  schemas:
+    ImportConfiguration:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: http
+      description: API Key Authorization header using the Bearer scheme.
+      scheme: bearer
+      bearerFormat: ApiKey

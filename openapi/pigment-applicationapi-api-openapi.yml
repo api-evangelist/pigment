@@ -1,0 +1,55 @@
+openapi: 3.0.4
+info:
+  title: Pigment External ApplicationApi API
+  version: v1-external
+security:
+- ApiKey: []
+tags:
+- name: ApplicationApi
+paths:
+  /api/v1/applications:
+    get:
+      tags:
+      - ApplicationApi
+      description: Retrieve all applications metadata
+      responses:
+        '200':
+          description: The applications metadata retrieval succeeded
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApplicationMetadata'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApplicationMetadata'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ApplicationMetadata'
+        '401':
+          description: Unauthorized
+components:
+  schemas:
+    ApplicationMetadata:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: http
+      description: API Key Authorization header using the Bearer scheme.
+      scheme: bearer
+      bearerFormat: ApiKey

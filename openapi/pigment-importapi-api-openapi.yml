@@ -1,0 +1,303 @@
+openapi: 3.0.4
+info:
+  title: Pigment External ApplicationApi ImportApi API
+  version: v1-external
+security:
+- ApiKey: []
+tags:
+- name: ImportApi
+paths:
+  /api/import/{importId}/status:
+    get:
+      tags:
+      - ImportApi
+      description: Get the status of a csv import operation
+      parameters:
+      - name: importId
+        in: path
+        description: The ID of the import
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: The import status was successfully retrieved
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ApiImportReportDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiImportReportDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ApiImportReportDto'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Status with the specified importId was not found
+  /api/import/push/csv:
+    post:
+      tags:
+      - ImportApi
+      description: Import a CSV file
+      parameters:
+      - name: configurationId
+        in: query
+        description: The import configuration ID
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          text/csv:
+            schema:
+              type: string
+              format: binary
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+        required: true
+      responses:
+        '200':
+          description: Import started
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ApiImportResultDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiImportResultDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ApiImportResultDto'
+        '400':
+          description: Bad request or size limit exceeded
+        '401':
+          description: Unauthorized
+        '404':
+          description: Import configuration with the specified ID was not found
+        '429':
+          description: 'Maximum number of reports per configuration per hour exceeded, maximum: 300. Please try again later.'
+  /api/import/push/looker:
+    post:
+      tags:
+      - ImportApi
+      description: Import Look
+      parameters:
+      - name: configurationId
+        in: query
+        description: The import configuration ID
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Look import started
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ApiImportResultDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiImportResultDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ApiImportResultDto'
+        '400':
+          description: Bad request or size limit exceeded
+        '401':
+          description: Unauthorized
+        '404':
+          description: Import configuration with the specified ID was not found
+components:
+  schemas:
+    ApiSkippedData:
+      required:
+      - count
+      - reason
+      - samples
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int64
+        reason:
+          allOf:
+          - $ref: '#/components/schemas/ApiSkippedDataReason'
+        sourceColumnName:
+          type: string
+          nullable: true
+        samples:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    ApiImportErrorDto:
+      required:
+      - description
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+      additionalProperties: false
+    ApiImportStatus:
+      enum:
+      - InProgress
+      - Completed
+      - Failed
+      type: string
+    ApiMainTargetReport:
+      required:
+      - blockId
+      - deletedCount
+      - insertedCount
+      - skippedData
+      - updatedCount
+      type: object
+      properties:
+        blockId:
+          type: string
+          format: uuid
+        scenarioId:
+          type: string
+          format: uuid
+          nullable: true
+        insertedCount:
+          type: integer
+          format: int64
+        updatedCount:
+          type: integer
+          format: int64
+        skippedData:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiSkippedData'
+        deletedCount:
+          type: integer
+          format: int64
+      additionalProperties: false
+    ApiSkippedDataReason:
+      enum:
+      - ParsingError
+      - MissingModalityUseDefaultOrNullModality
+      - MissingModalitySkippedDataRow
+      - MissingWriteAccessRights
+      - MissingModalitiesFromSnapshot
+      type: string
+    ApiAutoCreatedDimensionModality:
+      required:
+      - blockId
+      - count
+      type: object
+      properties:
+        blockId:
+          type: string
+          format: uuid
+        count:
+          type: integer
+          format: int64
+      additionalProperties: false
+    ApiImportBlockType:
+      enum:
+      - Metric
+      - List
+      type: string
+    ApiImportStatisticsSummary:
+      required:
+      - deletedCount
+      - insertedCount
+      - skippedCount
+      - updatedCount
+      type: object
+      properties:
+        insertedCount:
+          type: integer
+          format: int64
+        updatedCount:
+          type: integer
+          format: int64
+        deletedCount:
+          type: integer
+          format: int64
+        skippedCount:
+          type: integer
+          format: int64
+      additionalProperties: false
+    ApiImportResultDto:
+      required:
+      - importId
+      type: object
+      properties:
+        importId:
+          type: string
+          format: uuid
+      additionalProperties: false
+    ApiDetailedImportReport:
+      required:
+      - autoCreatedDimensionModalities
+      - blockType
+      - impactedBlocks
+      - summary
+      type: object
+      properties:
+        blockType:
+          allOf:
+          - $ref: '#/components/schemas/ApiImportBlockType'
+        summary:
+          allOf:
+          - $ref: '#/components/schemas/ApiImportStatisticsSummary'
+        impactedBlocks:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiMainTargetReport'
+        autoCreatedDimensionModalities:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiAutoCreatedDimensionModality'
+      additionalProperties: false
+    ApiImportReportDto:
+      required:
+      - createdAt
+      - importId
+      - importStatus
+      type: object
+      properties:
+        importId:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+          nullable: true
+        importStatus:
+          allOf:
+          - $ref: '#/components/schemas/ApiImportStatus'
+        errorsDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiImportErrorDto'
+          nullable: true
+        detailedReport:
+          allOf:
+          - $ref: '#/components/schemas/ApiDetailedImportReport'
+          nullable: true
+      additionalProperties: false
+  securitySchemes:
+    ApiKey:
+      type: http
+      description: API Key Authorization header using the Bearer scheme.
+      scheme: bearer
+      bearerFormat: ApiKey
