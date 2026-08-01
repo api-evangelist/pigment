@@ -1,0 +1,79 @@
+generated: '2026-07-20'
+method: searched
+source:
+- https://kb.pigment.com/docs/api-management.md
+- https://kb.pigment.com/docs/export-data-with-apis.md
+- https://kb.pigment.com/docs/trigger-import-apis.md
+- https://kb.pigment.com/docs/call-audit-logs-api.md
+- openapi/pigment-external-api-openapi.json
+base_url: https://pigment.app/api
+authentication:
+  style: bearer-token
+  header: 'Authorization: Bearer {API_KEY}'
+  scheme_name: ApiKey
+  bearer_format: ApiKey
+  key_types:
+  - Import
+  - Export
+  - Modeling Metadata
+  - SCIM (user management)
+  - Audit Logs
+  notes: >-
+    API keys impersonate the access rights of the key owner (Export/Import keys
+    have no dedicated scopes). Keys carry an expiration date and can be restricted
+    with an IP allow list. Old dash-format keys must be regenerated to the new format.
+  ref: authentication/pigment-authentication.yml
+idempotency:
+  supported: false
+  notes: >-
+    Pigment does not document an idempotency-key header for the public API. Import
+    de-duplication is handled by import configurations; the Audit Logs API exposes a
+    unique eventId for client-side de-duplication of overlapping queries.
+pagination:
+  styles:
+  - surface: Audit Logs API
+    style: cursor
+    request_param: cursor
+    response_field: nextEventsCursor
+    page_size: 1000
+    additional_param: ingestedSince
+    notes: >-
+      Events are returned newest-first, sorted by ingestionTimestamp, in batches of
+      1000. Maximum lookback is 180 days. Overlap query windows and de-duplicate on
+      eventId.
+  - surface: Import / Export / Metadata APIs
+    style: none
+    notes: Metadata list endpoints return the full collection as a JSON array.
+versioning:
+  scheme: uri-path
+  current: v1
+  path_prefix: /api/v1
+  notes: >-
+    New capabilities (e.g. import trigger, detailed report) require the v1 prefix.
+    Legacy unversioned endpoints (/api/import, /api/export) remain compatible but
+    Pigment strongly recommends migrating to the v1-prefixed paths.
+  ref: lifecycle/pigment-lifecycle.yml
+rate_limiting:
+  limit: 500 requests / 5 minutes / IP
+  exceeded_status: 429
+  ref: rate-limits/pigment-rate-limits.yml
+error_handling:
+  style: http-status
+  ref: errors/pigment-problem-types.yml
+request_headers:
+  custom:
+  - name: X-Pigment-Source
+    notes: Optional source-identification header used in Pigment's sample collection.
+content_types:
+  export: text/csv (Semicolon or Comma delimiter; Legacy or Iso8601 date format)
+  import_request: text/csv (CSV body) ; JSON for trigger/status
+  metadata_response: application/json
+data_apis:
+  audit_logs:
+    base_url: https://pigment.app/api/audit/v1/events
+    plan: Enterprise
+    auth: Audit Logs API key (Security Admin), Bearer
+  scim:
+    base_url: https://pigment.app/api/scim/v2/Users
+    standard: SCIM 2.0
+    ref: conformance/pigment-conformance.yml

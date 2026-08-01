@@ -1,0 +1,6 @@
+Contact: mailto:security@pigment.com
+Expires: 2026-09-02T10:00:00.000Z
+Preferred-Languages: en
+Canonical: https://pigment.app/.well-known/security.txt
+Canonical: https://www.pigment.com/.well-known/security.txt
+Policy: https://www.pigment.com/vdp

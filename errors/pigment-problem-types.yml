@@ -1,0 +1,71 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/pigment-external-api-openapi.json
+# Derived from the HTTP status responses declared across the Pigment External API
+# (title = v1-external). Pigment returns plain HTTP status codes; the spec does not
+# declare an application/problem+json (RFC 9457) media type, so format is http-status.
+format: http-status
+envelope:
+  description: >-
+    Success responses return the requested resource (CSV for exports, JSON for
+    metadata/status). Error responses are signalled by HTTP status code. The
+    import/status endpoints return a JSON body with an importId; failures surface
+    via the status code and, for imports, the detailed ApiDetailedImportReport /
+    ApiImportErrorDto schemas.
+problems:
+- status: 400
+  title: Bad Request
+  meaning: >-
+    Malformed request or invalid parameters (e.g. bad viewId/blockId/configurationId,
+    invalid dateFormat/fieldDelimiter/query values, or a malformed CSV/Looker body).
+  source_operations:
+  - openapi/pigment-external-api-openapi.json#POST /api/v1/import/push/csv
+  - openapi/pigment-external-api-openapi.json#POST /api/v1/import/trigger
+  - openapi/pigment-external-api-openapi.json#GET /api/v1/export/view/{viewId}
+- status: 401
+  title: Unauthorized
+  meaning: >-
+    Missing, malformed, expired, or revoked API key in the Authorization: Bearer
+    header. Old dash-format keys must be regenerated. Returned by every endpoint.
+  remediation: >-
+    Generate a valid API key of the correct type (Import / Export / Modeling
+    Metadata / SCIM / Audit Logs) in Workspace Settings > API Keys and send it as
+    'Authorization: Bearer {API_KEY}'.
+  source_operations:
+  - openapi/pigment-external-api-openapi.json#GET /api/v1/applications
+  - openapi/pigment-external-api-openapi.json#GET /api/v1/blocks
+  - openapi/pigment-external-api-openapi.json#GET /api/v1/views
+- status: 404
+  title: Not Found
+  meaning: >-
+    The referenced entity does not exist or is not visible to the API key owner
+    (viewId, listId, metricId, tableId, importId, or import configurationId).
+    Note: import configurations requested on a Table Block return an empty list,
+    not 404.
+  source_operations:
+  - openapi/pigment-external-api-openapi.json#GET /api/v1/import/{importId}/status
+  - openapi/pigment-external-api-openapi.json#GET /api/v1/export/view/{viewId}
+- status: 413
+  title: Payload Too Large
+  meaning: The requested export result exceeds the maximum allowed response size.
+  remediation: Narrow the View with filters or a dedicated export View, then retry.
+  source_operations:
+  - openapi/pigment-external-api-openapi.json#GET /api/v1/export/view/{viewId}
+  - openapi/pigment-external-api-openapi.json#GET /api/export/view/{viewId}
+- status: 422
+  title: Unprocessable Entity
+  meaning: >-
+    The export request is well-formed but cannot be processed (e.g. an
+    unsupported View/Block configuration for CSV export).
+  source_operations:
+  - openapi/pigment-external-api-openapi.json#GET /api/v1/export/view/{viewId}
+  - openapi/pigment-external-api-openapi.json#GET /api/export/view/{viewId}
+- status: 429
+  title: Too Many Requests
+  meaning: >-
+    Rate limit exceeded. The public API allows 500 requests per 5-minute window
+    per IP address across all endpoints.
+  remediation: Back off and retry after the 5-minute window resets.
+  source_operations:
+  - openapi/pigment-external-api-openapi.json#POST /api/v1/import/push/csv
+  - openapi/pigment-external-api-openapi.json#POST /api/import/push/csv

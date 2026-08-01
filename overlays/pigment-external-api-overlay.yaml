@@ -1,0 +1,30 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Pigment External API
+  version: 1.0.0
+extends: openapi/pigment-external-api-openapi.json
+# Non-destructive enhancements captured by the API Evangelist enrichment pipeline.
+# The harvested spec (v1-external) declares no servers[] and no operationIds; this
+# overlay records the production server and our derived catalog metadata without
+# mutating the original document.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: '2026-07-20'
+    x-apievangelist-base-url: https://pigment.app/api
+    x-rate-limit: 500 requests / 5 minutes / IP
+    x-authentication: authentication/pigment-authentication.yml
+    x-conventions: conventions/pigment-conventions.yml
+    x-error-catalog: errors/pigment-problem-types.yml
+- target: $
+  update:
+    servers:
+    - url: https://pigment.app/api
+      description: Pigment production API
+- target: $.components.securitySchemes.ApiKey
+  update:
+    x-key-types:
+    - Import
+    - Export
+    - Modeling Metadata
+    x-token-format: 'Authorization: Bearer {API_KEY}'

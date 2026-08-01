@@ -1,0 +1,46 @@
+generated: '2026-07-20'
+method: searched
+source: https://github.com/gopigment/ai-plugins
+notes: >-
+  Provider-published Agent Skills, captured verbatim from Pigment's official
+  ai-plugins repository (github.com/gopigment/ai-plugins), which ships as the
+  `pigment` plugin in the anthropics/claude-plugins-official marketplace and bundles
+  the Pigment MCP server. These are domain-knowledge skills for operating a Pigment
+  workspace via an AI client rather than raw OpenAPI-operation skills (the public
+  External API spec declares no operationIds to ground per-operation skills in).
+plugin:
+  name: pigment
+  version: 1.0.9
+  marketplace: pigment@claude-plugins-official
+  mcp: https://pigment.app/api/mcp/public/{id}
+skills:
+- file: pigment-analyzing-pigment-data.md
+  name: analyzing-pigment-data
+  description: Querying, exploring, or analyzing existing data in a Pigment workspace.
+- file: pigment-designing-boards.md
+  name: designing-boards
+  description: Creating or editing a Board.
+- file: pigment-designing-views.md
+  name: designing-views
+  description: Creating, editing, or picking a View.
+- file: pigment-formatting-and-highlighting.md
+  name: formatting-and-highlighting
+  description: Metric default formatting (decimals, currency, percent, scaling, text/boolean display).
+- file: pigment-integrating-external-data.md
+  name: integrating-external-data
+  description: Importing CSV/Excel data, mapping columns, dimensions vs transaction lists.
+- file: pigment-modeling-pigment-applications.md
+  name: modeling-pigment-applications
+  description: Designing or modifying Pigment applications (Dimensions, Calendars, Metrics, Tables).
+- file: pigment-optimizing-pigment-performance.md
+  name: optimizing-pigment-performance
+  description: Troubleshooting slow calculations, profiling, sparsity, and performance audits.
+- file: pigment-planning-cycles-pigment-applications.md
+  name: planning-cycles-pigment-applications
+  description: Version dimensions, scenarios, and snapshots for Actual/Budget/Forecast planning.
+- file: pigment-securing-pigment-applications.md
+  name: securing-pigment-applications
+  description: Designing, applying, and debugging Access Rights and security.
+- file: pigment-solving-specific-use-cases.md
+  name: solving-specific-use-cases
+  description: Domain patterns for FP&A, Workforce Planning, SPM, Supply Chain, and Consolidation.

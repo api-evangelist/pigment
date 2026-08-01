@@ -1,0 +1,14 @@
+generated: '2026-07-20'
+method: derived
+source: openapi/pigment-external-api-openapi.json
+summary:
+  types:
+  - http
+schemes:
+- name: ApiKey
+  type: http
+  scheme: bearer
+  bearerFormat: ApiKey
+  description: API Key Authorization header using the Bearer scheme.
+  sources:
+  - openapi/pigment-external-api-openapi.json

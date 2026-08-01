@@ -1,0 +1,46 @@
+generated: '2026-07-20'
+method: searched
+source:
+- https://storage.googleapis.com/public-customer-resources/rest-api-samples/Pigment-API-Collection.json
+- https://kb.pigment.com/docs/connect-common-mcp-clients.md
+- https://kb.pigment.com/docs/security-compliance.md
+- openapi/pigment-external-api-openapi.json
+standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: Pigment publishes an OpenAPI 3.0.4 document (Pigment External API,
+    v1-external) at https://pigment.app/api/swagger/external-api.swagger.json
+- id: scim-2.0
+  conforms: true
+  evidence: >-
+    SCIM 2.0 User Management API exposed at /api/scim/v2/Users (Create/Update/List/Get
+    User) using a SCIM API key; documented in the public REST sample collection and
+    SCIM/domain-restriction docs.
+- id: oauth2
+  conforms: true
+  evidence: >-
+    The Pigment MCP Server authenticates AI clients via OAuth (OAuth 2.0 / 2.1) with
+    Dynamic Client Registration (DCR); Pigment handles the OAuth flow and whitelists
+    per-client callback URLs.
+- id: mcp
+  conforms: true
+  evidence: >-
+    Official remote Model Context Protocol server (HTTP transport) at
+    https://pigment.app/api/mcp/public/{id}; official Claude/Cursor plugins in
+    github.com/gopigment/ai-plugins.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Error responses use plain HTTP status codes; no application/problem+json
+    media type is declared in the OpenAPI.
+- id: mfa-2fa
+  conforms: true
+  evidence: Multi-factor authentication (MFA/2FA) and SSO (SAML) with SCIM
+    provisioning documented under Security & Compliance.
+compliance:
+  program_url: https://www.pigment.com/security
+  trust_center: https://trust.pigment.com/
+  certifications:
+  - SOC 2
+  - GDPR
+  note: Certifications verified via probe of the Pigment security page; see
+    security/pigment-trust-center.yml.

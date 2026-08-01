@@ -1,0 +1,28 @@
+{
+  "provider": "pigment",
+  "sources": [
+    "pigment-applicationapi-api-openapi.yml",
+    "pigment-blocksapi-api-openapi.yml",
+    "pigment-export-api-openapi.yml",
+    "pigment-exportv1-api-openapi.yml",
+    "pigment-importapi-api-openapi.yml",
+    "pigment-importconfigurationapi-api-openapi.yml",
+    "pigment-importv1-api-openapi.yml",
+    "pigment-viewapi-api-openapi.yml"
+  ],
+  "outputs": [
+    "pigment-applicationapi-api-openapi.yml",
+    "pigment-blocksapi-api-openapi.yml",
+    "pigment-export-api-openapi.yml",
+    "pigment-exportv1-api-openapi.yml",
+    "pigment-importapi-api-openapi.yml",
+    "pigment-importconfigurationapi-api-openapi.yml",
+    "pigment-importv1-api-openapi.yml",
+    "pigment-viewapi-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

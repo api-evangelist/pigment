@@ -1,0 +1,22 @@
+generated: '2026-07-20'
+method: searched
+source: https://kb.pigment.com/docs/rate-limits-for-pigment-public-api.md
+scope: All Pigment public API endpoints
+policy:
+  limit_count: 500
+  window: 5 minutes
+  window_seconds: 300
+  key: per IP address
+  exceeded_status: 429
+  exceeded_body: HTTP 429 Too Many Requests
+notes: >-
+  Requests can resume once the 5-minute window resets. The limit is enforced per
+  source IP address (not per API key) across every public API endpoint (import,
+  export, metadata, applications, blocks, views). The Audit Logs API returns a
+  maximum of 1000 events per request and is paginated via a cursor (nextEventsCursor).
+rate_limits:
+- endpoint: '*'
+  limit_count: 500
+  interval: 300
+  interval_unit: seconds
+  scope: ip

@@ -1,0 +1,71 @@
+generated: '2026-07-20'
+method: derived
+source:
+- openapi/pigment-external-api-openapi.json
+- https://kb.pigment.com/docs/retrieve-info-metadata-api.md
+notes: >-
+  Entity graph derived from the Pigment External API OpenAPI schemas and the
+  Metadata API responses. Identifiers are UUIDs (no type prefixes). A Workspace is
+  the top-level tenant an API key is scoped to.
+entities:
+- name: Workspace
+  description: Top-level tenant; an API key is bound to one Workspace.
+  keys: [id]
+- name: Application
+  description: A Pigment planning application within a Workspace.
+  keys: [id, name]
+  endpoint: GET /api/v1/applications
+- name: Block
+  description: A modeling object inside an Application.
+  keys: [id, name, type]
+  types: [Metric, DimensionList, TransactionList, Table]
+  endpoint: GET /api/v1/blocks?applicationId={id}
+- name: View
+  description: A saved visualization/layout of a Block (used to export data).
+  keys: [id, name, type]
+  types: [Public, Personal]
+  endpoint: GET /api/v1/views?applicationId={id}&blockId={id}
+- name: ImportConfiguration
+  description: Pre-configured destination/mapping for importing data into a Block.
+  keys: [id, name]
+  endpoint: GET /api/v1/importConfigurations?applicationId={id}&blockId={id}
+- name: Import
+  description: A triggered import run, tracked by importId with a status report.
+  keys: [importId]
+  schemas: [ApiImportReportDto, ApiDetailedImportReport, ApiImportStatus, ApiImportResultDto]
+  endpoint: GET /api/v1/import/{importId}/status
+- name: User
+  description: A Workspace member managed via the SCIM 2.0 User Management API.
+  keys: [id]
+  endpoint: /api/scim/v2/Users
+- name: AuditEvent
+  description: An audit-log event (Enterprise) with actor, context, eventType, payload.
+  keys: [eventId]
+  endpoint: GET /api/audit/v1/events
+relationships:
+- from: Workspace
+  to: Application
+  type: has_many
+- from: Application
+  to: Block
+  type: has_many
+  via: applicationId
+- from: Block
+  to: View
+  type: has_many
+  via: blockId
+- from: Block
+  to: ImportConfiguration
+  type: has_many
+  via: blockId
+- from: Import
+  to: ImportConfiguration
+  type: belongs_to
+  via: configurationId
+- from: Workspace
+  to: User
+  type: has_many
+- from: AuditEvent
+  to: User
+  type: belongs_to
+  via: actor.user.id

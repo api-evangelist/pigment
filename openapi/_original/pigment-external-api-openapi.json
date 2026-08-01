@@ -1,0 +1,2168 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "Pigment External API",
+    "version": "v1-external"
+  },
+  "paths": {
+    "/api/import/{importId}/status": {
+      "get": {
+        "tags": [
+          "ImportApi"
+        ],
+        "description": "Get the status of a csv import operation",
+        "parameters": [
+          {
+            "name": "importId",
+            "in": "path",
+            "description": "The ID of the import",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The import status was successfully retrieved",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiImportReportDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiImportReportDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiImportReportDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Status with the specified importId was not found"
+          }
+        }
+      }
+    },
+    "/api/import/push/csv": {
+      "post": {
+        "tags": [
+          "ImportApi"
+        ],
+        "description": "Import a CSV file",
+        "parameters": [
+          {
+            "name": "configurationId",
+            "in": "query",
+            "description": "The import configuration ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "text/csv": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            },
+            "application/octet-stream": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Import started",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiImportResultDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiImportResultDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiImportResultDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or size limit exceeded"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Import configuration with the specified ID was not found"
+          },
+          "429": {
+            "description": "Maximum number of reports per configuration per hour exceeded, maximum: 300. Please try again later."
+          }
+        }
+      }
+    },
+    "/api/import/push/looker": {
+      "post": {
+        "tags": [
+          "ImportApi"
+        ],
+        "description": "Import Look",
+        "parameters": [
+          {
+            "name": "configurationId",
+            "in": "query",
+            "description": "The import configuration ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Look import started",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiImportResultDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiImportResultDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiImportResultDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or size limit exceeded"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Import configuration with the specified ID was not found"
+          }
+        }
+      }
+    },
+    "/api/v1/importConfigurations": {
+      "get": {
+        "tags": [
+          "ImportConfigurationApi"
+        ],
+        "description": "Retrieve import configurations for the given block",
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The import configurations retrieval succeeded",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ImportConfiguration"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ImportConfiguration"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ImportConfiguration"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/import/{importId}/status": {
+      "get": {
+        "tags": [
+          "ImportV1"
+        ],
+        "description": "Get the status of a csv import, integration import, list data copy or metric data copy operation",
+        "parameters": [
+          {
+            "name": "importId",
+            "in": "path",
+            "description": "The ID of the import, list data copy or metric data copy pipeline",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "includedDetailedReport",
+            "in": "query",
+            "description": "Include detailed report with summary statistics (inserted, updated, deleted, skipped counts) and block type information. Defaults to false for performance reasons.",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The import status was successfully retrieved",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiImportReportDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiImportReportDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiImportReportDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Status with the specified importId was not found"
+          }
+        }
+      }
+    },
+    "/api/v1/import/push/csv": {
+      "post": {
+        "tags": [
+          "ImportV1"
+        ],
+        "description": "Import a CSV file",
+        "parameters": [
+          {
+            "name": "configurationId",
+            "in": "query",
+            "description": "The import configuration ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "text/csv": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            },
+            "application/octet-stream": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Import started",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiImportResultDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiImportResultDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiImportResultDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or size limit exceeded"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Import configuration with the specified ID was not found"
+          },
+          "429": {
+            "description": "Maximum number of reports per configuration per hour exceeded, maximum: 300. Please try again later."
+          }
+        }
+      }
+    },
+    "/api/v1/import/push/looker": {
+      "post": {
+        "tags": [
+          "ImportV1"
+        ],
+        "description": "Import Look",
+        "parameters": [
+          {
+            "name": "configurationId",
+            "in": "query",
+            "description": "The import configuration ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Look import started",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiImportResultDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiImportResultDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiImportResultDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or size limit exceeded"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Import configuration with the specified ID was not found"
+          }
+        }
+      }
+    },
+    "/api/v1/import/trigger": {
+      "post": {
+        "tags": [
+          "ImportV1"
+        ],
+        "summary": "Trigger an automated import operation",
+        "description": "Initiates an import operation for integration-based import, list data copy or metric data copy. This endpoint automatically detects the type of pipeline (import, list data copy, or metric data copy) and triggers the appropriate operation.",
+        "parameters": [
+          {
+            "name": "configurationId",
+            "in": "query",
+            "description": "The unique identifier of the import configuration to trigger",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Import operation successfully triggered",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiImportResultDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiImportResultDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiImportResultDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid configuration or unsupported operation type"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "404": {
+            "description": "Import configuration not found - No pipeline exists with the specified configuration ID"
+          }
+        }
+      }
+    },
+    "/api/v1/applications": {
+      "get": {
+        "tags": [
+          "ApplicationApi"
+        ],
+        "description": "Retrieve all applications metadata",
+        "responses": {
+          "200": {
+            "description": "The applications metadata retrieval succeeded",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApplicationMetadata"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApplicationMetadata"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApplicationMetadata"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/blocks": {
+      "get": {
+        "tags": [
+          "BlocksApi"
+        ],
+        "description": "Retrieve metrics and lists metadata",
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "query",
+            "description": "The ID of the application ID to retrieve from.Í",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The blocks metadata retrieval has succeeded",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BlockMetadata"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BlockMetadata"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BlockMetadata"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/export/view/{viewId}": {
+      "get": {
+        "tags": [
+          "Export"
+        ],
+        "description": "Exports the data of a specific view and returns a CSV file containing the exported data",
+        "parameters": [
+          {
+            "name": "viewId",
+            "in": "path",
+            "description": "The ID of the view to export",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "dateFormat",
+            "in": "query",
+            "description": "The format to use for dates. Defaults to Legacy.",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/ExportDateFormat"
+                }
+              ]
+            }
+          },
+          {
+            "name": "fieldDelimiter",
+            "in": "query",
+            "description": "The field delimiter to use in csv exports. Defaults to semicolon (;).",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/ExportCsvDelimiter"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "View export successfully started",
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "View with the specified ID was not found"
+          },
+          "413": {
+            "description": "View is too big to be exported. Use block export API instead."
+          },
+          "422": {
+            "description": "The view underlying type is not list, metric or table"
+          }
+        }
+      }
+    },
+    "/api/export/list/{listId}": {
+      "post": {
+        "tags": [
+          "Export"
+        ],
+        "description": "Exports the data of a specific list and returns a CSV file containing the exported data",
+        "parameters": [
+          {
+            "name": "listId",
+            "in": "path",
+            "description": "The ID of the list to export",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ListRequest"
+                  }
+                ]
+              }
+            },
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ListRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ListRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ListRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "List export successfully started",
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "List with the specified ID was not found"
+          }
+        }
+      }
+    },
+    "/api/export/metric/{metricId}": {
+      "post": {
+        "tags": [
+          "Export"
+        ],
+        "description": "Exports the data of a specific metric and returns a CSV file containing the exported data",
+        "parameters": [
+          {
+            "name": "metricId",
+            "in": "path",
+            "description": "The ID of the metric to export",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MetricRequest"
+                  }
+                ]
+              }
+            },
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MetricRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MetricRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MetricRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Metric export successfully started",
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Metric with the specified ID was not found"
+          }
+        }
+      }
+    },
+    "/api/export/table/{tableId}": {
+      "post": {
+        "tags": [
+          "Export"
+        ],
+        "description": "Exports the data of a specific table and returns a CSV file containing the exported data",
+        "parameters": [
+          {
+            "name": "tableId",
+            "in": "path",
+            "description": "The ID of the table to export",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/TableRequest"
+                  }
+                ]
+              }
+            },
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/TableRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/TableRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/TableRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Table export successfully started",
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Table with the specified ID was not found"
+          }
+        }
+      }
+    },
+    "/api/v1/export/view/{viewId}": {
+      "get": {
+        "tags": [
+          "ExportV1"
+        ],
+        "description": "Exports the data of a specific view and returns a CSV file containing the exported data",
+        "parameters": [
+          {
+            "name": "viewId",
+            "in": "path",
+            "description": "The ID of the view to export",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "fieldDelimiter",
+            "in": "query",
+            "description": "The field delimiter to use in csv exports. Defaults to semicolon (;).",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/ExportCsvDelimiter"
+                }
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "View export successfully started",
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "View with the specified ID was not found"
+          },
+          "413": {
+            "description": "View is too big to be exported. Use block export API instead."
+          },
+          "422": {
+            "description": "The view underlying type is not list, metric or table"
+          }
+        }
+      }
+    },
+    "/api/v1/export/list/{listId}": {
+      "post": {
+        "tags": [
+          "ExportV1"
+        ],
+        "description": "Exports the data of a specific list and returns a CSV file containing the exported data",
+        "parameters": [
+          {
+            "name": "listId",
+            "in": "path",
+            "description": "The ID of the list to export",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ListRequest"
+                  }
+                ]
+              }
+            },
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ListRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ListRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ListRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "List export successfully started",
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "List with the specified ID was not found"
+          }
+        }
+      }
+    },
+    "/api/v1/export/metric/{metricId}": {
+      "post": {
+        "tags": [
+          "ExportV1"
+        ],
+        "description": "Exports the data of a specific metric and returns a CSV file containing the exported data",
+        "parameters": [
+          {
+            "name": "metricId",
+            "in": "path",
+            "description": "The ID of the metric to export",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MetricRequest"
+                  }
+                ]
+              }
+            },
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MetricRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MetricRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/MetricRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Metric export successfully started",
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Metric with the specified ID was not found"
+          }
+        }
+      }
+    },
+    "/api/v1/export/table/{tableId}": {
+      "post": {
+        "tags": [
+          "ExportV1"
+        ],
+        "description": "Exports the data of a specific table and returns a CSV file containing the exported data",
+        "parameters": [
+          {
+            "name": "tableId",
+            "in": "path",
+            "description": "The ID of the table to export",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/TableRequest"
+                  }
+                ]
+              }
+            },
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/TableRequest"
+                  }
+                ]
+              }
+            },
+            "text/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/TableRequest"
+                  }
+                ]
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/TableRequest"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Table export successfully started",
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Table with the specified ID was not found"
+          }
+        }
+      }
+    },
+    "/api/v1/views": {
+      "get": {
+        "tags": [
+          "ViewApi"
+        ],
+        "description": "Retrieve metadata for views on the given block",
+        "parameters": [
+          {
+            "name": "applicationId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "blockId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Views metadata retrieval succeeded",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ViewMetadata"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ViewMetadata"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ViewMetadata"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiAutoCreatedDimensionModality": {
+        "required": [
+          "blockId",
+          "count"
+        ],
+        "type": "object",
+        "properties": {
+          "blockId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiDetailedImportReport": {
+        "required": [
+          "autoCreatedDimensionModalities",
+          "blockType",
+          "impactedBlocks",
+          "summary"
+        ],
+        "type": "object",
+        "properties": {
+          "blockType": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ApiImportBlockType"
+              }
+            ]
+          },
+          "summary": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ApiImportStatisticsSummary"
+              }
+            ]
+          },
+          "impactedBlocks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiMainTargetReport"
+            }
+          },
+          "autoCreatedDimensionModalities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiAutoCreatedDimensionModality"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiImportBlockType": {
+        "enum": [
+          "Metric",
+          "List"
+        ],
+        "type": "string"
+      },
+      "ApiImportErrorDto": {
+        "required": [
+          "description",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiImportReportDto": {
+        "required": [
+          "createdAt",
+          "importId",
+          "importStatus"
+        ],
+        "type": "object",
+        "properties": {
+          "importId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "completedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "importStatus": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ApiImportStatus"
+              }
+            ]
+          },
+          "errorsDetails": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiImportErrorDto"
+            },
+            "nullable": true
+          },
+          "detailedReport": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ApiDetailedImportReport"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiImportResultDto": {
+        "required": [
+          "importId"
+        ],
+        "type": "object",
+        "properties": {
+          "importId": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiImportStatisticsSummary": {
+        "required": [
+          "deletedCount",
+          "insertedCount",
+          "skippedCount",
+          "updatedCount"
+        ],
+        "type": "object",
+        "properties": {
+          "insertedCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "updatedCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "deletedCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "skippedCount": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiImportStatus": {
+        "enum": [
+          "InProgress",
+          "Completed",
+          "Failed"
+        ],
+        "type": "string"
+      },
+      "ApiMainTargetReport": {
+        "required": [
+          "blockId",
+          "deletedCount",
+          "insertedCount",
+          "skippedData",
+          "updatedCount"
+        ],
+        "type": "object",
+        "properties": {
+          "blockId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "scenarioId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "insertedCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "updatedCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "skippedData": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiSkippedData"
+            }
+          },
+          "deletedCount": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiSkippedData": {
+        "required": [
+          "count",
+          "reason",
+          "samples"
+        ],
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "reason": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ApiSkippedDataReason"
+              }
+            ]
+          },
+          "sourceColumnName": {
+            "type": "string",
+            "nullable": true
+          },
+          "samples": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApiSkippedDataReason": {
+        "enum": [
+          "ParsingError",
+          "MissingModalityUseDefaultOrNullModality",
+          "MissingModalitySkippedDataRow",
+          "MissingWriteAccessRights",
+          "MissingModalitiesFromSnapshot"
+        ],
+        "type": "string"
+      },
+      "ImportConfiguration": {
+        "required": [
+          "id",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApplicationMetadata": {
+        "required": [
+          "id",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "BlockMetadata": {
+        "required": [
+          "id",
+          "name",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/BlockMetadataType"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "BlockMetadataType": {
+        "enum": [
+          "DimensionList",
+          "TransactionList",
+          "Metric",
+          "Table"
+        ],
+        "type": "string"
+      },
+      "DimensionFilter": {
+        "required": [
+          "dimensionId",
+          "modalityIds"
+        ],
+        "type": "object",
+        "properties": {
+          "dimensionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "modalityIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Modalities of the dimension to filter in. Behaviour when empty is undefined - omit the filter instead to allow all values."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Filter on a dimension. Only rows where the target dimension is defined will be filtered by this."
+      },
+      "ExportCsvDelimiter": {
+        "enum": [
+          "Semicolon",
+          "Comma"
+        ],
+        "type": "string"
+      },
+      "ExportDateFormat": {
+        "enum": [
+          "Legacy",
+          "Iso8601"
+        ],
+        "type": "string",
+        "description": "Defines how Date values in the response should be formatted. Usage of the 'Legacy' option is not recommended, the format will either be '01/21/2054', in other cases '10/12/2024 00:00:00 +00:00'. 'Iso8601' will format dates like '2054-01-21'."
+      },
+      "ExportDecimalSeparator": {
+        "enum": [
+          "Comma",
+          "Dot"
+        ],
+        "type": "string"
+      },
+      "ExportField": {
+        "required": [
+          "sourceId",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "sourceId": {
+            "type": "string",
+            "description": "MetricId if Type = Value, DimensionId if Type = DimensionPivot, null if Type = ScenarioPivot.\n\nIf the value is a MetricId, it should be the id of the metric in the live application (i.e. not an id from a snapshot, even if only\nsnapshot scenarios are included in this export request)",
+            "format": "uuid",
+            "nullable": true
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExportFieldType"
+              }
+            ],
+            "description": "Defines the type of field."
+          },
+          "displayName": {
+            "type": "string",
+            "description": "Optional display name override for the field. When set will be placed in the csv headers.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExportFieldType": {
+        "enum": [
+          "DimensionField",
+          "ScenarioField",
+          "ValueField"
+        ],
+        "type": "string"
+      },
+      "ExportFileEncoding": {
+        "enum": [
+          "Utf8WithBom",
+          "Utf8WithoutBom"
+        ],
+        "type": "string"
+      },
+      "ExportFilter": {
+        "required": [
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExportFilterType"
+              }
+            ],
+            "description": "Discriminator for the filter type. Must be set, along with the corresponding field"
+          },
+          "and": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExportFilter"
+            },
+            "description": "List of filters to combine with an AND. Must be set if Type is And. Should not be empty if not null - empty behaviour is undefined.",
+            "nullable": true
+          },
+          "or": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExportFilter"
+            },
+            "description": "List of filters to combine with an OR. Must be set if Type is Or. Should not be empty if not null - empty behaviour is undefined.",
+            "nullable": true
+          },
+          "dimension": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DimensionFilter"
+              }
+            ],
+            "description": "Filter on a dimension. Only rows where the target dimension is defined will be filtered by this.",
+            "nullable": true
+          },
+          "value": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ValueFilter"
+              }
+            ],
+            "description": "Filter on a metric value. Only rows where that metric could be defined (i.e. all of the metric's dimensions are defined) will be filtered by an instance of this.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Recursive filter object which supports combining dimension and value filters"
+      },
+      "ExportFilterType": {
+        "enum": [
+          "And",
+          "Or",
+          "Dimension",
+          "Value"
+        ],
+        "type": "string"
+      },
+      "FilterCondition": {
+        "required": [
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/FilterConditionType"
+              }
+            ]
+          },
+          "value": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "boolean"
+              }
+            ],
+            "description": "Value to compare to. Must be the same type as the property being filtered."
+          }
+        },
+        "additionalProperties": false,
+        "description": "Filter condition for export filtering.\n\nImportant: The 'value' field is:\n- Required for types: LessThan, LessThanOrEqual, Equal, NotEqual, GreaterThan, GreaterThanOrEqual\n- Must be omitted for type: IsNotBlank",
+        "example": {
+          "type": "GreaterThan",
+          "value": 10
+        }
+      },
+      "FilterConditionType": {
+        "enum": [
+          "LessThan",
+          "LessThanOrEqual",
+          "Equal",
+          "NotEqual",
+          "GreaterThan",
+          "GreaterThanOrEqual",
+          "IsNotBlank"
+        ],
+        "type": "string"
+      },
+      "FilterConditionValue": {
+        "oneOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "integer"
+          },
+          {
+            "type": "boolean"
+          }
+        ],
+        "additionalProperties": false,
+        "description": "Value to compare to. Must be the same type as the property being filtered."
+      },
+      "ListRequest": {
+        "type": "object",
+        "properties": {
+          "propertyTechnicalNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of the property technical to be exported. The properties will be exported in that order. If null, all properties of the list will be exported ordered by their technical name.",
+            "nullable": true
+          },
+          "listFilter": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "List of modalities of the list to filter in. Empty or null means all.",
+            "nullable": true
+          },
+          "propertyFilters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PropertyFilter"
+            },
+            "description": "List of property filters.",
+            "nullable": true
+          },
+          "friendlyHeaders": {
+            "type": "boolean",
+            "description": "If true, the exported CSV header will display list and properties friendly names. If null or false, it will display technical names.",
+            "nullable": true
+          },
+          "dateFormat": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExportDateFormat"
+              }
+            ],
+            "description": "Defines how Date values in the response should be formatted. In the /v1/ endpoints will default to Iso8601 if not provided.",
+            "nullable": true
+          },
+          "fieldDelimiter": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExportCsvDelimiter"
+              }
+            ],
+            "description": "Field separator, defaults to semicolon (;)",
+            "nullable": true
+          },
+          "decimalSeparator": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExportDecimalSeparator"
+              }
+            ],
+            "description": "The decimal separator to use in the csv export. Defaults to dot (.).",
+            "nullable": true
+          },
+          "encoding": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExportFileEncoding"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "MetricRequest": {
+        "type": "object",
+        "properties": {
+          "scenarios": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "IDs of scenarios to be exported. If null or empty, only the default scenario will be exported and the export won\"t have a scenario column.",
+            "nullable": true
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DimensionFilter"
+            },
+            "description": "Deprecated - use the ExportFilter field instead. If both this and ExportFilter are not null, they are combined with an implicit AND. Empty filters are treated as including all values.",
+            "nullable": true
+          },
+          "exportFilter": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExportFilter"
+              }
+            ],
+            "description": "Recursive filter object which supports combining dimension and value filters",
+            "nullable": true
+          },
+          "friendlyHeaders": {
+            "type": "boolean",
+            "description": "If true, the exported CSV header will display metric friendly names. If null or not provided, it will display technical names.",
+            "nullable": true
+          },
+          "dateFormat": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExportDateFormat"
+              }
+            ],
+            "description": "Defines how Date values in the response should be formatted. In legacy endpoints, defaults to Legacy if not provided. In the /v1/ endpoints defaults to Iso8601 if not provided.",
+            "nullable": true
+          },
+          "fieldDelimiter": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExportCsvDelimiter"
+              }
+            ],
+            "description": "The field delimiter to use in the csv export. Defaults to semicolon (;).",
+            "nullable": true
+          },
+          "decimalSeparator": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExportDecimalSeparator"
+              }
+            ],
+            "description": "The decimal separator to use in the csv export. Defaults to dot (.).",
+            "nullable": true
+          },
+          "encoding": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExportFileEncoding"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PropertyFilter": {
+        "required": [
+          "modalityIds",
+          "propertyTechnicalName"
+        ],
+        "type": "object",
+        "properties": {
+          "propertyTechnicalName": {
+            "type": "string"
+          },
+          "modalityIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "TableRequest": {
+        "type": "object",
+        "properties": {
+          "metrics": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "nullable": true
+          },
+          "scenarios": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "IDs of scenarios to be exported. If null or empty, only the default scenario will be exported and the export won't have a scenario column.",
+            "nullable": true
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DimensionFilter"
+            },
+            "description": "Deprecated - use the ExportFilter field instead. If both this and ExportFilter are not null, they are combined with an implicit AND. Empty filters are treated as including all values.",
+            "nullable": true
+          },
+          "exportFilter": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExportFilter"
+              }
+            ],
+            "description": "Recursive filter object which supports combining dimension and value filters",
+            "nullable": true
+          },
+          "friendlyHeaders": {
+            "type": "boolean",
+            "description": "If true, the exported CSV header will display metric friendly names. If null or not provided, it will display technical names.",
+            "nullable": true
+          },
+          "dateFormat": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExportDateFormat"
+              }
+            ],
+            "description": "Defines how Date values in the response should be formatted. In legacy endpoints, defaults to Legacy if not provided. In the /v1/ endpoints defaults to Iso8601 if not provided.",
+            "nullable": true
+          },
+          "fieldDelimiter": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExportCsvDelimiter"
+              }
+            ],
+            "description": "The field delimiter to use in the csv export. Defaults to semicolon (;).",
+            "nullable": true
+          },
+          "decimalSeparator": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExportDecimalSeparator"
+              }
+            ],
+            "description": "The decimal separator to use in the csv export. Defaults to dot (.).",
+            "nullable": true
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExportField"
+            },
+            "description": "List of fields to be included in the output csv, each as a single column. When not provided, one column for each metric and one column for each metric dimension is generated, in a fixed order.",
+            "nullable": true
+          },
+          "encoding": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ExportFileEncoding"
+              }
+            ],
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ValueFilter": {
+        "required": [
+          "condition",
+          "metricId"
+        ],
+        "type": "object",
+        "properties": {
+          "metricId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "condition": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/FilterCondition"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "description": "Filter on a metric value. Only rows where that metric could be defined (i.e. all of the metric's dimensions are defined) will be filtered by an instance of this."
+      },
+      "ViewMetadata": {
+        "required": [
+          "id",
+          "name",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ViewMetadataType"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "ViewMetadataType": {
+        "enum": [
+          "Public",
+          "Personal"
+        ],
+        "type": "string"
+      }
+    },
+    "securitySchemes": {
+      "ApiKey": {
+        "type": "http",
+        "description": "API Key Authorization header using the Bearer scheme.",
+        "scheme": "bearer",
+        "bearerFormat": "ApiKey"
+      }
+    }
+  },
+  "security": [
+    {
+      "ApiKey": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "ApplicationApi"
+    },
+    {
+      "name": "BlocksApi"
+    },
+    {
+      "name": "Export"
+    },
+    {
+      "name": "ExportV1"
+    },
+    {
+      "name": "ViewApi"
+    }
+  ]
+}

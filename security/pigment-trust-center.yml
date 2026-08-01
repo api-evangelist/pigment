@@ -1,0 +1,13 @@
+generated: '2026-07-20'
+method: searched
+probe: true
+source: https://www.pigment.com/security
+url: https://www.pigment.com/security
+certifications:
+- SOC 2
+- GDPR
+evidence:
+- source: https://www.pigment.com/security
+  keywords:
+  - soc2
+  - gdpr

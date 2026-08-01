@@ -1,0 +1,33 @@
+generated: '2026-07-20'
+method: searched
+source:
+- https://kb.pigment.com/docs/trigger-import-apis.md
+- https://kb.pigment.com/docs/manage-api-keys.md
+- openapi/pigment-external-api-openapi.json
+versioning:
+  scheme: uri-path
+  current: v1
+  spec_version: v1-external
+  docs: https://pigment.app/api/swagger/
+  notes: >-
+    The Pigment External API is versioned in the URI path (/api/v1). New
+    capabilities require the v1 prefix. Legacy unversioned endpoints (/api/import,
+    /api/export) remain compatible with or without a version prefix, but Pigment
+    strongly recommends migrating to v1-prefixed paths.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  notes: >-
+    No formal RFC 8594 Sunset/Deprecation-header policy is published. Legacy
+    unversioned endpoints are soft-deprecated in favor of the v1 paths, and
+    old dash-format API keys must be regenerated to the new key format.
+credential_lifecycle:
+  api_key_expiration: required (each key has an explicit expiration date; the
+    expiration day itself is exclusive)
+  ip_allow_list: supported per API key
+sla:
+  url: null
+  uptime_target: null
+status_page: null
+security_txt_expires: '2026-09-02T10:00:00.000Z'
+deprecated_operations: []
