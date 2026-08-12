@@ -208,6 +208,8 @@ apis:
     url: >-
       https://storage.googleapis.com/public-customer-resources/rest-api-samples/Pigment-API-Collection.json
 common:
+- type: Overlay
+  url: overlays/pigment-external-api-overlay.yaml
 - type: DeveloperPortal
   url: https://kb.pigment.com/
 - type: Documentation
