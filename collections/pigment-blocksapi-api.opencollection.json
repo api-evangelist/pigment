@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Pigment External ApplicationApi BlocksApi API",
+    "version": "v1-external"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "BlocksApi",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /api/v1/blocks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/blocks",
+            "params": [
+              {
+                "name": "applicationId",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the application ID to retrieve from.Í"
+              }
+            ]
+          },
+          "docs": "Retrieve metrics and lists metadata"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

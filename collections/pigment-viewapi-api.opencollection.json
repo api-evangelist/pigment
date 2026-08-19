@@ -1,0 +1,47 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Pigment External ApplicationApi ViewApi API",
+    "version": "v1-external"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ViewApi",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /api/v1/views",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/views",
+            "params": [
+              {
+                "name": "applicationId",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "blockId",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Retrieve metadata for views on the given block"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

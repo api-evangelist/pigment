@@ -1,0 +1,1335 @@
+{
+  "item": [
+    {
+      "id": "9c61e384-db30-4afd-9fa7-3b9ea60c54e6",
+      "name": "ExportV1",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1f900e1a-810d-4e3e-a2a3-ee20adb12ce3",
+          "name": "Exports the data of a specific view and returns a CSV file containing the exported data",
+          "request": {
+            "name": "Exports the data of a specific view and returns a CSV file containing the exported data",
+            "description": {
+              "content": "Exports the data of a specific view and returns a CSV file containing the exported data",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "export",
+                "view",
+                ":viewId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "fieldDelimiter",
+                  "value": "<string>",
+                  "description": "The field delimiter to use in csv exports. Defaults to semicolon (;)."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "viewId",
+                  "description": "(Required) The ID of the view to export"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "404ad33a-64c1-4734-8415-4b6551a0bb5b",
+              "name": "View export successfully started",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "export",
+                    "view",
+                    ":viewId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fieldDelimiter",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "viewId",
+                      "description": "(Required) The ID of the view to export"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/csv"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "42a8cd1b-018e-4d06-b002-096d5dbf159a",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "export",
+                    "view",
+                    ":viewId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fieldDelimiter",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "viewId",
+                      "description": "(Required) The ID of the view to export"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "88a49571-e2f2-491a-bb3f-6e4b762831de",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "export",
+                    "view",
+                    ":viewId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fieldDelimiter",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "viewId",
+                      "description": "(Required) The ID of the view to export"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "01151083-6a0a-47d1-a216-4f25d39dc92f",
+              "name": "View with the specified ID was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "export",
+                    "view",
+                    ":viewId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fieldDelimiter",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "viewId",
+                      "description": "(Required) The ID of the view to export"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b07e11b9-e973-4337-abb6-b4d00976b7b8",
+              "name": "View is too big to be exported. Use block export API instead.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "export",
+                    "view",
+                    ":viewId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fieldDelimiter",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "viewId",
+                      "description": "(Required) The ID of the view to export"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Request Entity Too Large",
+              "code": 413,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f9ee4483-bde9-4573-abf9-b35f45abb296",
+              "name": "The view underlying type is not list, metric or table",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "export",
+                    "view",
+                    ":viewId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "fieldDelimiter",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "viewId",
+                      "description": "(Required) The ID of the view to export"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7969d608-8939-42f3-856b-f1c63fadd71b",
+          "name": "Exports the data of a specific list and returns a CSV file containing the exported data",
+          "request": {
+            "name": "Exports the data of a specific list and returns a CSV file containing the exported data",
+            "description": {
+              "content": "Exports the data of a specific list and returns a CSV file containing the exported data",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "export",
+                "list",
+                ":listId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "listId",
+                  "description": "(Required) The ID of the list to export"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"propertyTechnicalNames\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"listFilter\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"propertyFilters\": [\n    {\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ],\n      \"propertyTechnicalName\": \"<string>\"\n    },\n    {\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ],\n      \"propertyTechnicalName\": \"<string>\"\n    }\n  ],\n  \"friendlyHeaders\": \"<boolean>\",\n  \"dateFormat\": \"<string>\",\n  \"fieldDelimiter\": \"<string>\",\n  \"decimalSeparator\": \"<string>\",\n  \"encoding\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "975fbc82-a328-4470-ac07-9fff9e5e470d",
+              "name": "List export successfully started",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "export",
+                    "list",
+                    ":listId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "listId",
+                      "description": "(Required) The ID of the list to export"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"propertyTechnicalNames\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"listFilter\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"propertyFilters\": [\n    {\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ],\n      \"propertyTechnicalName\": \"<string>\"\n    },\n    {\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ],\n      \"propertyTechnicalName\": \"<string>\"\n    }\n  ],\n  \"friendlyHeaders\": \"<boolean>\",\n  \"dateFormat\": \"<string>\",\n  \"fieldDelimiter\": \"<string>\",\n  \"decimalSeparator\": \"<string>\",\n  \"encoding\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/csv"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "77bdd888-54f4-40d0-8fa9-ade1e3191bda",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "export",
+                    "list",
+                    ":listId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "listId",
+                      "description": "(Required) The ID of the list to export"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"propertyTechnicalNames\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"listFilter\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"propertyFilters\": [\n    {\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ],\n      \"propertyTechnicalName\": \"<string>\"\n    },\n    {\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ],\n      \"propertyTechnicalName\": \"<string>\"\n    }\n  ],\n  \"friendlyHeaders\": \"<boolean>\",\n  \"dateFormat\": \"<string>\",\n  \"fieldDelimiter\": \"<string>\",\n  \"decimalSeparator\": \"<string>\",\n  \"encoding\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e56ca223-48e5-4d9b-a19d-80f15df6811a",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "export",
+                    "list",
+                    ":listId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "listId",
+                      "description": "(Required) The ID of the list to export"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"propertyTechnicalNames\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"listFilter\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"propertyFilters\": [\n    {\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ],\n      \"propertyTechnicalName\": \"<string>\"\n    },\n    {\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ],\n      \"propertyTechnicalName\": \"<string>\"\n    }\n  ],\n  \"friendlyHeaders\": \"<boolean>\",\n  \"dateFormat\": \"<string>\",\n  \"fieldDelimiter\": \"<string>\",\n  \"decimalSeparator\": \"<string>\",\n  \"encoding\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2412418d-a3a5-4e70-9809-9e17750be031",
+              "name": "List with the specified ID was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "export",
+                    "list",
+                    ":listId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "listId",
+                      "description": "(Required) The ID of the list to export"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"propertyTechnicalNames\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"listFilter\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"propertyFilters\": [\n    {\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ],\n      \"propertyTechnicalName\": \"<string>\"\n    },\n    {\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ],\n      \"propertyTechnicalName\": \"<string>\"\n    }\n  ],\n  \"friendlyHeaders\": \"<boolean>\",\n  \"dateFormat\": \"<string>\",\n  \"fieldDelimiter\": \"<string>\",\n  \"decimalSeparator\": \"<string>\",\n  \"encoding\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "11d0def6-0a1c-4e3b-8bb0-cf82be0d1f63",
+          "name": "Exports the data of a specific metric and returns a CSV file containing the exported data",
+          "request": {
+            "name": "Exports the data of a specific metric and returns a CSV file containing the exported data",
+            "description": {
+              "content": "Exports the data of a specific metric and returns a CSV file containing the exported data",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "export",
+                "metric",
+                ":metricId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "metricId",
+                  "description": "(Required) The ID of the metric to export"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"scenarios\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"filters\": [\n    {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ]\n    },\n    {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ]\n    }\n  ],\n  \"exportFilter\": {\n    \"type\": \"<string>\",\n    \"and\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      }\n    ],\n    \"or\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      }\n    ],\n    \"dimension\": {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    },\n    \"value\": {\n      \"condition\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"metricId\": \"<uuid>\"\n    }\n  },\n  \"friendlyHeaders\": \"<boolean>\",\n  \"dateFormat\": \"<string>\",\n  \"fieldDelimiter\": \"<string>\",\n  \"decimalSeparator\": \"<string>\",\n  \"encoding\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a114e3f5-dc55-44db-b431-ad791d296093",
+              "name": "Metric export successfully started",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "export",
+                    "metric",
+                    ":metricId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "metricId",
+                      "description": "(Required) The ID of the metric to export"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"scenarios\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"filters\": [\n    {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ]\n    },\n    {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ]\n    }\n  ],\n  \"exportFilter\": {\n    \"type\": \"<string>\",\n    \"and\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      }\n    ],\n    \"or\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      }\n    ],\n    \"dimension\": {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    },\n    \"value\": {\n      \"condition\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"metricId\": \"<uuid>\"\n    }\n  },\n  \"friendlyHeaders\": \"<boolean>\",\n  \"dateFormat\": \"<string>\",\n  \"fieldDelimiter\": \"<string>\",\n  \"decimalSeparator\": \"<string>\",\n  \"encoding\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/csv"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "feb83818-7e52-4a8c-a895-4ce8d887afd7",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "export",
+                    "metric",
+                    ":metricId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "metricId",
+                      "description": "(Required) The ID of the metric to export"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"scenarios\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"filters\": [\n    {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ]\n    },\n    {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ]\n    }\n  ],\n  \"exportFilter\": {\n    \"type\": \"<string>\",\n    \"and\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      }\n    ],\n    \"or\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      }\n    ],\n    \"dimension\": {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    },\n    \"value\": {\n      \"condition\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"metricId\": \"<uuid>\"\n    }\n  },\n  \"friendlyHeaders\": \"<boolean>\",\n  \"dateFormat\": \"<string>\",\n  \"fieldDelimiter\": \"<string>\",\n  \"decimalSeparator\": \"<string>\",\n  \"encoding\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "85b5b989-baff-45bf-921b-63125ffdf98e",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "export",
+                    "metric",
+                    ":metricId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "metricId",
+                      "description": "(Required) The ID of the metric to export"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"scenarios\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"filters\": [\n    {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ]\n    },\n    {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ]\n    }\n  ],\n  \"exportFilter\": {\n    \"type\": \"<string>\",\n    \"and\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      }\n    ],\n    \"or\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      }\n    ],\n    \"dimension\": {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    },\n    \"value\": {\n      \"condition\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"metricId\": \"<uuid>\"\n    }\n  },\n  \"friendlyHeaders\": \"<boolean>\",\n  \"dateFormat\": \"<string>\",\n  \"fieldDelimiter\": \"<string>\",\n  \"decimalSeparator\": \"<string>\",\n  \"encoding\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d5cdfb9e-0e49-45c8-82b5-7ae4b0b078f7",
+              "name": "Metric with the specified ID was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "export",
+                    "metric",
+                    ":metricId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "metricId",
+                      "description": "(Required) The ID of the metric to export"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"scenarios\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"filters\": [\n    {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ]\n    },\n    {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ]\n    }\n  ],\n  \"exportFilter\": {\n    \"type\": \"<string>\",\n    \"and\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      }\n    ],\n    \"or\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      }\n    ],\n    \"dimension\": {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    },\n    \"value\": {\n      \"condition\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"metricId\": \"<uuid>\"\n    }\n  },\n  \"friendlyHeaders\": \"<boolean>\",\n  \"dateFormat\": \"<string>\",\n  \"fieldDelimiter\": \"<string>\",\n  \"decimalSeparator\": \"<string>\",\n  \"encoding\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1636ff23-7e53-49ed-821e-f96c19e57f12",
+          "name": "Exports the data of a specific table and returns a CSV file containing the exported data",
+          "request": {
+            "name": "Exports the data of a specific table and returns a CSV file containing the exported data",
+            "description": {
+              "content": "Exports the data of a specific table and returns a CSV file containing the exported data",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "v1",
+                "export",
+                "table",
+                ":tableId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "tableId",
+                  "description": "(Required) The ID of the table to export"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/csv"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"metrics\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"scenarios\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"filters\": [\n    {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ]\n    },\n    {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ]\n    }\n  ],\n  \"exportFilter\": {\n    \"type\": \"<string>\",\n    \"and\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      }\n    ],\n    \"or\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      }\n    ],\n    \"dimension\": {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    },\n    \"value\": {\n      \"condition\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"metricId\": \"<uuid>\"\n    }\n  },\n  \"friendlyHeaders\": \"<boolean>\",\n  \"dateFormat\": \"<string>\",\n  \"fieldDelimiter\": \"<string>\",\n  \"decimalSeparator\": \"<string>\",\n  \"fields\": [\n    {\n      \"sourceId\": \"<uuid>\",\n      \"type\": \"<string>\",\n      \"displayName\": \"<string>\"\n    },\n    {\n      \"sourceId\": \"<uuid>\",\n      \"type\": \"<string>\",\n      \"displayName\": \"<string>\"\n    }\n  ],\n  \"encoding\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f815293c-2ec3-4c9c-a164-499c34c63c94",
+              "name": "Table export successfully started",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "export",
+                    "table",
+                    ":tableId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "tableId",
+                      "description": "(Required) The ID of the table to export"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "text/csv"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metrics\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"scenarios\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"filters\": [\n    {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ]\n    },\n    {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ]\n    }\n  ],\n  \"exportFilter\": {\n    \"type\": \"<string>\",\n    \"and\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      }\n    ],\n    \"or\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      }\n    ],\n    \"dimension\": {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    },\n    \"value\": {\n      \"condition\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"metricId\": \"<uuid>\"\n    }\n  },\n  \"friendlyHeaders\": \"<boolean>\",\n  \"dateFormat\": \"<string>\",\n  \"fieldDelimiter\": \"<string>\",\n  \"decimalSeparator\": \"<string>\",\n  \"fields\": [\n    {\n      \"sourceId\": \"<uuid>\",\n      \"type\": \"<string>\",\n      \"displayName\": \"<string>\"\n    },\n    {\n      \"sourceId\": \"<uuid>\",\n      \"type\": \"<string>\",\n      \"displayName\": \"<string>\"\n    }\n  ],\n  \"encoding\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/csv"
+                }
+              ],
+              "body": "string",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2a4046e0-d5dc-4f4c-b2b9-14ba9fa18e62",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "export",
+                    "table",
+                    ":tableId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "tableId",
+                      "description": "(Required) The ID of the table to export"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metrics\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"scenarios\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"filters\": [\n    {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ]\n    },\n    {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ]\n    }\n  ],\n  \"exportFilter\": {\n    \"type\": \"<string>\",\n    \"and\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      }\n    ],\n    \"or\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      }\n    ],\n    \"dimension\": {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    },\n    \"value\": {\n      \"condition\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"metricId\": \"<uuid>\"\n    }\n  },\n  \"friendlyHeaders\": \"<boolean>\",\n  \"dateFormat\": \"<string>\",\n  \"fieldDelimiter\": \"<string>\",\n  \"decimalSeparator\": \"<string>\",\n  \"fields\": [\n    {\n      \"sourceId\": \"<uuid>\",\n      \"type\": \"<string>\",\n      \"displayName\": \"<string>\"\n    },\n    {\n      \"sourceId\": \"<uuid>\",\n      \"type\": \"<string>\",\n      \"displayName\": \"<string>\"\n    }\n  ],\n  \"encoding\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a6a5c583-8778-42fb-91f9-86edb480cd97",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "export",
+                    "table",
+                    ":tableId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "tableId",
+                      "description": "(Required) The ID of the table to export"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metrics\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"scenarios\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"filters\": [\n    {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ]\n    },\n    {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ]\n    }\n  ],\n  \"exportFilter\": {\n    \"type\": \"<string>\",\n    \"and\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      }\n    ],\n    \"or\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      }\n    ],\n    \"dimension\": {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    },\n    \"value\": {\n      \"condition\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"metricId\": \"<uuid>\"\n    }\n  },\n  \"friendlyHeaders\": \"<boolean>\",\n  \"dateFormat\": \"<string>\",\n  \"fieldDelimiter\": \"<string>\",\n  \"decimalSeparator\": \"<string>\",\n  \"fields\": [\n    {\n      \"sourceId\": \"<uuid>\",\n      \"type\": \"<string>\",\n      \"displayName\": \"<string>\"\n    },\n    {\n      \"sourceId\": \"<uuid>\",\n      \"type\": \"<string>\",\n      \"displayName\": \"<string>\"\n    }\n  ],\n  \"encoding\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9a0f9615-00ac-409b-acaa-5a87ca61588d",
+              "name": "Table with the specified ID was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "v1",
+                    "export",
+                    "table",
+                    ":tableId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "tableId",
+                      "description": "(Required) The ID of the table to export"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"metrics\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"scenarios\": [\n    \"<uuid>\",\n    \"<uuid>\"\n  ],\n  \"filters\": [\n    {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ]\n    },\n    {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        \"<uuid>\",\n        \"<uuid>\"\n      ]\n    }\n  ],\n  \"exportFilter\": {\n    \"type\": \"<string>\",\n    \"and\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      }\n    ],\n    \"or\": [\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      },\n      {\n        \"value\": \"<Circular reference to #/components/schemas/ExportFilter detected>\"\n      }\n    ],\n    \"dimension\": {\n      \"dimensionId\": \"<uuid>\",\n      \"modalityIds\": [\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        },\n        {\n          \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n        }\n      ]\n    },\n    \"value\": {\n      \"condition\": {\n        \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n      },\n      \"metricId\": \"<uuid>\"\n    }\n  },\n  \"friendlyHeaders\": \"<boolean>\",\n  \"dateFormat\": \"<string>\",\n  \"fieldDelimiter\": \"<string>\",\n  \"decimalSeparator\": \"<string>\",\n  \"fields\": [\n    {\n      \"sourceId\": \"<uuid>\",\n      \"type\": \"<string>\",\n      \"displayName\": \"<string>\"\n    },\n    {\n      \"sourceId\": \"<uuid>\",\n      \"type\": \"<string>\",\n      \"displayName\": \"<string>\"\n    }\n  ],\n  \"encoding\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3abcd9aa-ce75-4296-b9bf-c51ab6f6c5ee",
+    "name": "Pigment External ApplicationApi ExportV1 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

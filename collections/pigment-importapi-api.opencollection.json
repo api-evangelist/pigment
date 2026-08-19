@@ -1,0 +1,81 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Pigment External ApplicationApi ImportApi API",
+    "version": "v1-external"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ImportApi",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /api/import/{importId}/status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/import/:importId/status",
+            "params": [
+              {
+                "name": "importId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the import"
+              }
+            ]
+          },
+          "docs": "Get the status of a csv import operation"
+        },
+        {
+          "info": {
+            "name": "POST /api/import/push/csv",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/import/push/csv",
+            "params": [
+              {
+                "name": "configurationId",
+                "value": "",
+                "type": "query",
+                "description": "The import configuration ID"
+              }
+            ]
+          },
+          "docs": "Import a CSV file"
+        },
+        {
+          "info": {
+            "name": "POST /api/import/push/looker",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/import/push/looker",
+            "params": [
+              {
+                "name": "configurationId",
+                "value": "",
+                "type": "query",
+                "description": "The import configuration ID"
+              }
+            ]
+          },
+          "docs": "Import Look"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

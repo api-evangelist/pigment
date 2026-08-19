@@ -1,0 +1,124 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Pigment External ApplicationApi Export API",
+    "version": "v1-external"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Export",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /api/export/view/{viewId}",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/export/view/:viewId",
+            "params": [
+              {
+                "name": "viewId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the view to export"
+              },
+              {
+                "name": "dateFormat",
+                "value": "",
+                "type": "query",
+                "description": "The format to use for dates. Defaults to Legacy."
+              },
+              {
+                "name": "fieldDelimiter",
+                "value": "",
+                "type": "query",
+                "description": "The field delimiter to use in csv exports. Defaults to semicolon (;)."
+              }
+            ]
+          },
+          "docs": "Exports the data of a specific view and returns a CSV file containing the exported data"
+        },
+        {
+          "info": {
+            "name": "POST /api/export/list/{listId}",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/export/list/:listId",
+            "params": [
+              {
+                "name": "listId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the list to export"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Exports the data of a specific list and returns a CSV file containing the exported data"
+        },
+        {
+          "info": {
+            "name": "POST /api/export/metric/{metricId}",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/export/metric/:metricId",
+            "params": [
+              {
+                "name": "metricId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the metric to export"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Exports the data of a specific metric and returns a CSV file containing the exported data"
+        },
+        {
+          "info": {
+            "name": "POST /api/export/table/{tableId}",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/export/table/:tableId",
+            "params": [
+              {
+                "name": "tableId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the table to export"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Exports the data of a specific table and returns a CSV file containing the exported data"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -12,20 +12,19 @@ server:
   url_pattern: https://pigment.app/api/mcp/public/{id}
   hosted: true
   per_workspace: true
-  notes: >-
-    A unique MCP endpoint URL is generated per Workspace (and per Test & Deploy
-    environment) under Settings > Integrations > MCP. Requires Pigment AI to be
-    activated and a Security/Workspace Administrator or Primary Owner to enable.
+  notes: A unique MCP endpoint URL is generated per Workspace (and per Test & Deploy environment) under
+    Settings > Integrations > MCP. Requires Pigment AI to be activated and a Security/Workspace Administrator
+    or Primary Owner to enable.
 auth:
   type: oauth
-  versions: [OAuth 2.0, OAuth 2.1]
+  versions:
+  - OAuth 2.0
+  - OAuth 2.1
   dynamic_client_registration: true
-  notes: >-
-    Clients leave OAuth Client ID/Secret empty; Pigment handles OAuth automatically
-    and whitelists per-client callback URLs. Users authenticate with their Pigment
-    credentials and inherit their existing access rights. Only Metric data of type
-    Number, Integer, or Boolean can be read via MCP, and Blocks can be excluded by
-    disabling their AI data access setting.
+  notes: Clients leave OAuth Client ID/Secret empty; Pigment handles OAuth automatically and whitelists
+    per-client callback URLs. Users authenticate with their Pigment credentials and inherit their existing
+    access rights. Only Metric data of type Number, Integer, or Boolean can be read via MCP, and Blocks
+    can be excluded by disabling their AI data access setting.
 supported_clients:
 - ChatGPT
 - Claude
@@ -43,8 +42,13 @@ official_plugins:
   bundles_skills: true
   ref: skills/_index.yml
 tools:
-  note: >-
-    Tools are surfaced dynamically per Workspace/permissions and are not published as
-    a static list. Documented capabilities include querying governed business metrics
-    and hierarchies, retrieving insights, and (modeler agent) Performance Insights
-    tools such as performance_profile_change and get_top_blocks_by_performance.
+  note: Tools are surfaced dynamically per Workspace/permissions and are not published as a static list.
+    Documented capabilities include querying governed business metrics and hierarchies, retrieving insights,
+    and (modeler agent) Performance Insights tools such as performance_profile_change and get_top_blocks_by_performance.
+deployment:
+  mode: remote
+  endpoint: https://pigment.app/api/mcp/public/{id}
+  verified: probed
+  probe: gated
+  checked: '2026-08-12'
+  source: catalog MCP census

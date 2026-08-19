@@ -1,0 +1,106 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Pigment External ApplicationApi ImportV1 API",
+    "version": "v1-external"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "ImportV1",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /api/v1/import/{importId}/status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/import/:importId/status",
+            "params": [
+              {
+                "name": "importId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the import, list data copy or metric data copy pipeline"
+              },
+              {
+                "name": "includedDetailedReport",
+                "value": "",
+                "type": "query",
+                "description": "Include detailed report with summary statistics (inserted, updated, deleted, skipped counts) and block type information. Defaults to false for performance reasons."
+              }
+            ]
+          },
+          "docs": "Get the status of a csv import, integration import, list data copy or metric data copy operation"
+        },
+        {
+          "info": {
+            "name": "POST /api/v1/import/push/csv",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/import/push/csv",
+            "params": [
+              {
+                "name": "configurationId",
+                "value": "",
+                "type": "query",
+                "description": "The import configuration ID"
+              }
+            ]
+          },
+          "docs": "Import a CSV file"
+        },
+        {
+          "info": {
+            "name": "POST /api/v1/import/push/looker",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/import/push/looker",
+            "params": [
+              {
+                "name": "configurationId",
+                "value": "",
+                "type": "query",
+                "description": "The import configuration ID"
+              }
+            ]
+          },
+          "docs": "Import Look"
+        },
+        {
+          "info": {
+            "name": "Trigger an automated import operation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/import/trigger",
+            "params": [
+              {
+                "name": "configurationId",
+                "value": "",
+                "type": "query",
+                "description": "The unique identifier of the import configuration to trigger"
+              }
+            ]
+          },
+          "docs": "Initiates an import operation for integration-based import, list data copy or metric data copy. This endpoint automatically detects the type of pipeline (import, list data copy, or metric data copy) and triggers the appropriate operation."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
