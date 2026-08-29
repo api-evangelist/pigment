@@ -14,6 +14,18 @@ description: >-
   Logs API. Pigment also operates an official remote Model Context Protocol (MCP)
   server for AI clients and publishes domain-knowledge Agent Skills. Authentication is
   via Bearer API keys (typed Import/Export/Metadata/SCIM/Audit) with IP allow lists.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: self-serve
