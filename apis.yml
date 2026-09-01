@@ -73,7 +73,7 @@ apis:
   humanURL: https://kb.pigment.com/docs/api-management
   baseURL: https://pigment.app/api
   tags:
-  - ApplicationApi
+  - Application API
   tags_raw:
   - ApplicationApi
   properties:
@@ -151,7 +151,7 @@ apis:
   humanURL: https://kb.pigment.com/docs/api-management
   baseURL: https://pigment.app/api
   tags:
-  - ImportApi
+  - Import API
   tags_raw:
   - ImportApi
   properties:
