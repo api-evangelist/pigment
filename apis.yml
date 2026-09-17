@@ -69,27 +69,6 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 apis:
-- aid: pigment:pigment-applicationapi-api
-  name: Pigment ApplicationApi API
-  description: The ApplicationApi API from Pigment — 1 operation(s) for applicationapi.
-  humanURL: https://kb.pigment.com/docs/api-management
-  baseURL: https://pigment.app/api
-  tags:
-  - Application API
-  tags_raw:
-  - ApplicationApi
-  properties:
-  - type: OpenAPI
-    url: openapi/pigment-applicationapi-api-openapi.yml
-  - type: APIReference
-    url: https://pigment.app/api/swagger/
-  - type: Documentation
-    url: https://kb.pigment.com/docs/api-management
-  - type: GettingStarted
-    url: https://kb.pigment.com/docs/export-data-with-apis
-  - type: Postman
-    url: >-
-      https://storage.googleapis.com/public-customer-resources/rest-api-samples/Pigment-API-Collection.json
 - aid: pigment:pigment-blocksapi-api
   name: Pigment BlocksApi API
   description: The BlocksApi API from Pigment — 1 operation(s) for blocksapi.
@@ -147,27 +126,6 @@ apis:
   - type: Postman
     url: >-
       https://storage.googleapis.com/public-customer-resources/rest-api-samples/Pigment-API-Collection.json
-- aid: pigment:pigment-importapi-api
-  name: Pigment ImportApi API
-  description: The ImportApi API from Pigment — 3 operation(s) for importapi.
-  humanURL: https://kb.pigment.com/docs/api-management
-  baseURL: https://pigment.app/api
-  tags:
-  - Import API
-  tags_raw:
-  - ImportApi
-  properties:
-  - type: OpenAPI
-    url: openapi/pigment-importapi-api-openapi.yml
-  - type: APIReference
-    url: https://pigment.app/api/swagger/
-  - type: Documentation
-    url: https://kb.pigment.com/docs/api-management
-  - type: GettingStarted
-    url: https://kb.pigment.com/docs/export-data-with-apis
-  - type: Postman
-    url: >-
-      https://storage.googleapis.com/public-customer-resources/rest-api-samples/Pigment-API-Collection.json
 - aid: pigment:pigment-importconfigurationapi-api
   name: Pigment ImportConfigurationApi API
   description: The ImportConfigurationApi API from Pigment — 1 operation(s) for importconfigurationapi.
@@ -216,6 +174,44 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/pigment-viewapi-api-openapi.yml
+  - type: APIReference
+    url: https://pigment.app/api/swagger/
+  - type: Documentation
+    url: https://kb.pigment.com/docs/api-management
+  - type: GettingStarted
+    url: https://kb.pigment.com/docs/export-data-with-apis
+  - type: Postman
+    url: >-
+      https://storage.googleapis.com/public-customer-resources/rest-api-samples/Pigment-API-Collection.json
+- aid: pigment:pigment-application-api-api
+  name: Pigment Application API
+  description: The Application API API from Pigment — 1 operation(s) for application api.
+  humanURL: https://kb.pigment.com/docs/api-management
+  baseURL: https://pigment.app/api
+  tags:
+  - Application API
+  properties:
+  - type: OpenAPI
+    url: openapi/pigment-application-api-api-openapi.yml
+  - type: APIReference
+    url: https://pigment.app/api/swagger/
+  - type: Documentation
+    url: https://kb.pigment.com/docs/api-management
+  - type: GettingStarted
+    url: https://kb.pigment.com/docs/export-data-with-apis
+  - type: Postman
+    url: >-
+      https://storage.googleapis.com/public-customer-resources/rest-api-samples/Pigment-API-Collection.json
+- aid: pigment:pigment-import-api-api
+  name: Pigment Import API
+  description: The Import API API from Pigment — 3 operation(s) for import api.
+  humanURL: https://kb.pigment.com/docs/api-management
+  baseURL: https://pigment.app/api
+  tags:
+  - Import API
+  properties:
+  - type: OpenAPI
+    url: openapi/pigment-import-api-api-openapi.yml
   - type: APIReference
     url: https://pigment.app/api/swagger/
   - type: Documentation
