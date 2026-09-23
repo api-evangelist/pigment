@@ -1,6 +1,6 @@
-openapi: 3.0.4
+openapi: 3.2.0
 info:
-  title: Pigment External ApplicationApi ImportConfigurationApi API
+  title: Pigment External Import Configuration API
   version: v1-external
 security:
 - ApiKey: []
@@ -44,6 +44,10 @@ paths:
                   $ref: '#/components/schemas/ImportConfiguration'
         '401':
           description: Unauthorized
+      summary: Get api import configurations
+      x-summary-source: derived
+      operationId: getApiV1ImportConfigurations
+      x-operation-id-source: derived
 components:
   schemas:
     ImportConfiguration:

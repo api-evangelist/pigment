@@ -1,16 +1,16 @@
-openapi: 3.0.4
+openapi: 3.2.0
 info:
-  title: Pigment External ApplicationApi ImportApi API
+  title: Pigment External Import API
   version: v1-external
 security:
 - ApiKey: []
 tags:
-- name: ImportApi
+- name: Import API
 paths:
   /api/import/{importId}/status:
     get:
       tags:
-      - ImportApi
+      - Import API
       description: Get the status of a csv import operation
       parameters:
       - name: importId
@@ -39,10 +39,14 @@ paths:
           description: Unauthorized
         '404':
           description: Status with the specified importId was not found
+      summary: Get api import by import id status
+      x-summary-source: derived
+      operationId: getApiImportByImportIdStatus
+      x-operation-id-source: derived
   /api/import/push/csv:
     post:
       tags:
-      - ImportApi
+      - Import API
       description: Import a CSV file
       parameters:
       - name: configurationId
@@ -84,10 +88,14 @@ paths:
           description: Import configuration with the specified ID was not found
         '429':
           description: 'Maximum number of reports per configuration per hour exceeded, maximum: 300. Please try again later.'
+      summary: Create api import push csv
+      x-summary-source: derived
+      operationId: postApiImportPushCsv
+      x-operation-id-source: derived
   /api/import/push/looker:
     post:
       tags:
-      - ImportApi
+      - Import API
       description: Import Look
       parameters:
       - name: configurationId
@@ -116,8 +124,56 @@ paths:
           description: Unauthorized
         '404':
           description: Import configuration with the specified ID was not found
+      summary: Create api import push looker
+      x-summary-source: derived
+      operationId: postApiImportPushLooker
+      x-operation-id-source: derived
 components:
   schemas:
+    ApiSkippedDataReason:
+      enum:
+      - ParsingError
+      - MissingModalityUseDefaultOrNullModality
+      - MissingModalitySkippedDataRow
+      - MissingWriteAccessRights
+      - MissingModalitiesFromSnapshot
+      type: string
+    ApiImportReportDto:
+      required:
+      - createdAt
+      - importId
+      - importStatus
+      type: object
+      properties:
+        importId:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        completedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        importStatus:
+          allOf:
+          - $ref: '#/components/schemas/ApiImportStatus'
+        errorsDetails:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ApiImportErrorDto'
+        detailedReport:
+          allOf:
+          - $ref: '#/components/schemas/ApiDetailedImportReport'
+      additionalProperties: false
+    ApiImportBlockType:
+      enum:
+      - Metric
+      - List
+      type: string
     ApiSkippedData:
       required:
       - count
@@ -132,13 +188,20 @@ components:
           allOf:
           - $ref: '#/components/schemas/ApiSkippedDataReason'
         sourceColumnName:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         samples:
           type: array
           items:
             type: string
       additionalProperties: false
+    ApiImportStatus:
+      enum:
+      - InProgress
+      - Completed
+      - Failed
+      type: string
     ApiImportErrorDto:
       required:
       - description
@@ -150,12 +213,19 @@ components:
         description:
           type: string
       additionalProperties: false
-    ApiImportStatus:
-      enum:
-      - InProgress
-      - Completed
-      - Failed
-      type: string
+    ApiAutoCreatedDimensionModality:
+      required:
+      - blockId
+      - count
+      type: object
+      properties:
+        blockId:
+          type: string
+          format: uuid
+        count:
+          type: integer
+          format: int64
+      additionalProperties: false
     ApiMainTargetReport:
       required:
       - blockId
@@ -169,9 +239,10 @@ components:
           type: string
           format: uuid
         scenarioId:
-          type: string
+          type:
+          - string
+          - 'null'
           format: uuid
-          nullable: true
         insertedCount:
           type: integer
           format: int64
@@ -186,32 +257,15 @@ components:
           type: integer
           format: int64
       additionalProperties: false
-    ApiSkippedDataReason:
-      enum:
-      - ParsingError
-      - MissingModalityUseDefaultOrNullModality
-      - MissingModalitySkippedDataRow
-      - MissingWriteAccessRights
-      - MissingModalitiesFromSnapshot
-      type: string
-    ApiAutoCreatedDimensionModality:
+    ApiImportResultDto:
       required:
-      - blockId
-      - count
+      - importId
       type: object
       properties:
-        blockId:
+        importId:
           type: string
           format: uuid
-        count:
-          type: integer
-          format: int64
       additionalProperties: false
-    ApiImportBlockType:
-      enum:
-      - Metric
-      - List
-      type: string
     ApiImportStatisticsSummary:
       required:
       - deletedCount
@@ -232,15 +286,6 @@ components:
         skippedCount:
           type: integer
           format: int64
-      additionalProperties: false
-    ApiImportResultDto:
-      required:
-      - importId
-      type: object
-      properties:
-        importId:
-          type: string
-          format: uuid
       additionalProperties: false
     ApiDetailedImportReport:
       required:
@@ -264,36 +309,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ApiAutoCreatedDimensionModality'
-      additionalProperties: false
-    ApiImportReportDto:
-      required:
-      - createdAt
-      - importId
-      - importStatus
-      type: object
-      properties:
-        importId:
-          type: string
-          format: uuid
-        createdAt:
-          type: string
-          format: date-time
-        completedAt:
-          type: string
-          format: date-time
-          nullable: true
-        importStatus:
-          allOf:
-          - $ref: '#/components/schemas/ApiImportStatus'
-        errorsDetails:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiImportErrorDto'
-          nullable: true
-        detailedReport:
-          allOf:
-          - $ref: '#/components/schemas/ApiDetailedImportReport'
-          nullable: true
       additionalProperties: false
   securitySchemes:
     ApiKey:

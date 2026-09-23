@@ -1,6 +1,6 @@
-openapi: 3.0.4
+openapi: 3.2.0
 info:
-  title: Pigment External ApplicationApi BlocksApi API
+  title: Pigment External Blocks API
   version: v1-external
 security:
 - ApiKey: []
@@ -40,6 +40,10 @@ paths:
                   $ref: '#/components/schemas/BlockMetadata'
         '401':
           description: Unauthorized
+      summary: Get api blocks
+      x-summary-source: derived
+      operationId: getApiV1Blocks
+      x-operation-id-source: derived
 components:
   schemas:
     BlockMetadata:

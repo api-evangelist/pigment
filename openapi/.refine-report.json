@@ -1,14 +1,7 @@
 {
   "provider": "pigment",
   "sources": [
-    "pigment-applicationapi-api-openapi.yml",
-    "pigment-blocksapi-api-openapi.yml",
-    "pigment-export-api-openapi.yml",
-    "pigment-exportv1-api-openapi.yml",
-    "pigment-importapi-api-openapi.yml",
-    "pigment-importconfigurationapi-api-openapi.yml",
-    "pigment-importv1-api-openapi.yml",
-    "pigment-viewapi-api-openapi.yml"
+    "_original/pigment-external-api-openapi.json"
   ],
   "outputs": [
     "pigment-applicationapi-api-openapi.yml",
@@ -20,9 +13,28 @@
     "pigment-importv1-api-openapi.yml",
     "pigment-viewapi-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 2 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "pigment-external-api-openapi.json: upgraded openapi 3.0.4 -> OpenAPI 3.2.0",
+    "pigment-external-api-openapi.json: declared missing tag: ImportApi",
+    "pigment-external-api-openapi.json: declared missing tag: ImportConfigurationApi",
+    "pigment-external-api-openapi.json: declared missing tag: ImportV1",
+    "superseded outputs removed: pigment-application-api-api-openapi.yml, pigment-import-api-api-openapi.yml",
+    "apis.yml register: written (+2 apis, 8 total)"
+  ],
+  "skipped": [
+    "pigment-application-api-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "pigment-blocksapi-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "pigment-export-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "pigment-exportv1-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "pigment-import-api-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "pigment-importconfigurationapi-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "pigment-importv1-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "pigment-viewapi-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

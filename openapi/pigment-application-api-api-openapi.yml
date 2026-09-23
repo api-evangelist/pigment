@@ -1,16 +1,16 @@
-openapi: 3.0.4
+openapi: 3.2.0
 info:
-  title: Pigment External ApplicationApi API
+  title: Pigment External Application API
   version: v1-external
 security:
 - ApiKey: []
 tags:
-- name: ApplicationApi
+- name: Application API
 paths:
   /api/v1/applications:
     get:
       tags:
-      - ApplicationApi
+      - Application API
       description: Retrieve all applications metadata
       responses:
         '200':
@@ -33,6 +33,10 @@ paths:
                   $ref: '#/components/schemas/ApplicationMetadata'
         '401':
           description: Unauthorized
+      summary: Get api applications
+      x-summary-source: derived
+      operationId: getApiV1Applications
+      x-operation-id-source: derived
 components:
   schemas:
     ApplicationMetadata:

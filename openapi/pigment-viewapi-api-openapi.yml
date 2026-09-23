@@ -1,6 +1,6 @@
-openapi: 3.0.4
+openapi: 3.2.0
 info:
-  title: Pigment External ApplicationApi ViewApi API
+  title: Pigment External View API
   version: v1-external
 security:
 - ApiKey: []
@@ -44,6 +44,10 @@ paths:
                   $ref: '#/components/schemas/ViewMetadata'
         '401':
           description: Unauthorized
+      summary: Get api views
+      x-summary-source: derived
+      operationId: getApiV1Views
+      x-operation-id-source: derived
 components:
   schemas:
     ViewMetadataType:

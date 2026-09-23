@@ -1,6 +1,6 @@
-openapi: 3.0.4
+openapi: 3.2.0
 info:
-  title: Pigment External ApplicationApi Export API
+  title: Pigment External Export API
   version: v1-external
 security:
 - ApiKey: []
@@ -52,6 +52,10 @@ paths:
           description: View is too big to be exported. Use block export API instead.
         '422':
           description: The view underlying type is not list, metric or table
+      summary: Get api export view by view id
+      x-summary-source: derived
+      operationId: getApiExportViewByViewId
+      x-operation-id-source: derived
   /api/export/list/{listId}:
     post:
       tags:
@@ -99,6 +103,10 @@ paths:
           description: Unauthorized
         '404':
           description: List with the specified ID was not found
+      summary: Create api export list by list id
+      x-summary-source: derived
+      operationId: postApiExportListByListId
+      x-operation-id-source: derived
   /api/export/metric/{metricId}:
     post:
       tags:
@@ -146,6 +154,10 @@ paths:
           description: Unauthorized
         '404':
           description: Metric with the specified ID was not found
+      summary: Create api export metric by metric id
+      x-summary-source: derived
+      operationId: postApiExportMetricByMetricId
+      x-operation-id-source: derived
   /api/export/table/{tableId}:
     post:
       tags:
@@ -193,8 +205,55 @@ paths:
           description: Unauthorized
         '404':
           description: Table with the specified ID was not found
+      summary: Create api export table by table id
+      x-summary-source: derived
+      operationId: postApiExportTableByTableId
+      x-operation-id-source: derived
 components:
   schemas:
+    MetricRequest:
+      type: object
+      properties:
+        scenarios:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+          description: IDs of scenarios to be exported. If null or empty, only the default scenario will be exported and the export won"t have a scenario column.
+        filters:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DimensionFilter'
+          description: Deprecated - use the ExportFilter field instead. If both this and ExportFilter are not null, they are combined with an implicit AND. Empty filters are treated as including all values.
+        exportFilter:
+          allOf:
+          - $ref: '#/components/schemas/ExportFilter'
+          description: Recursive filter object which supports combining dimension and value filters
+        friendlyHeaders:
+          type:
+          - boolean
+          - 'null'
+          description: If true, the exported CSV header will display metric friendly names. If null or not provided, it will display technical names.
+        dateFormat:
+          allOf:
+          - $ref: '#/components/schemas/ExportDateFormat'
+          description: Defines how Date values in the response should be formatted. In legacy endpoints, defaults to Legacy if not provided. In the /v1/ endpoints defaults to Iso8601 if not provided.
+        fieldDelimiter:
+          allOf:
+          - $ref: '#/components/schemas/ExportCsvDelimiter'
+          description: The field delimiter to use in the csv export. Defaults to semicolon (;).
+        decimalSeparator:
+          allOf:
+          - $ref: '#/components/schemas/ExportDecimalSeparator'
+          description: The decimal separator to use in the csv export. Defaults to dot (.).
+        encoding:
+          allOf:
+          - $ref: '#/components/schemas/ExportFileEncoding'
+      additionalProperties: false
     FilterConditionType:
       enum:
       - LessThan
@@ -205,16 +264,20 @@ components:
       - GreaterThanOrEqual
       - IsNotBlank
       type: string
-    ExportFileEncoding:
-      enum:
-      - Utf8WithBom
-      - Utf8WithoutBom
-      type: string
-    ExportCsvDelimiter:
-      enum:
-      - Semicolon
-      - Comma
-      type: string
+    PropertyFilter:
+      required:
+      - modalityIds
+      - propertyTechnicalName
+      type: object
+      properties:
+        propertyTechnicalName:
+          type: string
+        modalityIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+      additionalProperties: false
     ExportFilter:
       required:
       - type
@@ -225,33 +288,67 @@ components:
           - $ref: '#/components/schemas/ExportFilterType'
           description: Discriminator for the filter type. Must be set, along with the corresponding field
         and:
-          type: array
+          type:
+          - array
+          - 'null'
           items:
             $ref: '#/components/schemas/ExportFilter'
           description: List of filters to combine with an AND. Must be set if Type is And. Should not be empty if not null - empty behaviour is undefined.
-          nullable: true
         or:
-          type: array
+          type:
+          - array
+          - 'null'
           items:
             $ref: '#/components/schemas/ExportFilter'
           description: List of filters to combine with an OR. Must be set if Type is Or. Should not be empty if not null - empty behaviour is undefined.
-          nullable: true
         dimension:
           allOf:
           - $ref: '#/components/schemas/DimensionFilter'
           description: Filter on a dimension. Only rows where the target dimension is defined will be filtered by this.
-          nullable: true
         value:
           allOf:
           - $ref: '#/components/schemas/ValueFilter'
           description: Filter on a metric value. Only rows where that metric could be defined (i.e. all of the metric's dimensions are defined) will be filtered by an instance of this.
-          nullable: true
       additionalProperties: false
       description: Recursive filter object which supports combining dimension and value filters
+    ExportFieldType:
+      enum:
+      - DimensionField
+      - ScenarioField
+      - ValueField
+      type: string
+    DimensionFilter:
+      required:
+      - dimensionId
+      - modalityIds
+      type: object
+      properties:
+        dimensionId:
+          type: string
+          format: uuid
+        modalityIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Modalities of the dimension to filter in. Behaviour when empty is undefined - omit the filter instead to allow all values.
+      additionalProperties: false
+      description: Filter on a dimension. Only rows where the target dimension is defined will be filtered by this.
     ExportDecimalSeparator:
       enum:
       - Comma
       - Dot
+      type: string
+    ExportDateFormat:
+      enum:
+      - Legacy
+      - Iso8601
+      type: string
+      description: Defines how Date values in the response should be formatted. Usage of the 'Legacy' option is not recommended, the format will either be '01/21/2054', in other cases '10/12/2024 00:00:00 +00:00'. 'Iso8601' will format dates like '2054-01-21'.
+    ExportFileEncoding:
+      enum:
+      - Utf8WithBom
+      - Utf8WithoutBom
       type: string
     FilterCondition:
       required:
@@ -280,163 +377,57 @@ components:
       example:
         type: GreaterThan
         value: 10
-    ExportFieldType:
-      enum:
-      - DimensionField
-      - ScenarioField
-      - ValueField
-      type: string
-    DimensionFilter:
-      required:
-      - dimensionId
-      - modalityIds
-      type: object
-      properties:
-        dimensionId:
-          type: string
-          format: uuid
-        modalityIds:
-          type: array
-          items:
-            type: string
-            format: uuid
-          description: Modalities of the dimension to filter in. Behaviour when empty is undefined - omit the filter instead to allow all values.
-      additionalProperties: false
-      description: Filter on a dimension. Only rows where the target dimension is defined will be filtered by this.
-    TableRequest:
-      type: object
-      properties:
-        metrics:
-          type: array
-          items:
-            type: string
-            format: uuid
-          nullable: true
-        scenarios:
-          type: array
-          items:
-            type: string
-            format: uuid
-          description: IDs of scenarios to be exported. If null or empty, only the default scenario will be exported and the export won't have a scenario column.
-          nullable: true
-        filters:
-          type: array
-          items:
-            $ref: '#/components/schemas/DimensionFilter'
-          description: Deprecated - use the ExportFilter field instead. If both this and ExportFilter are not null, they are combined with an implicit AND. Empty filters are treated as including all values.
-          nullable: true
-        exportFilter:
-          allOf:
-          - $ref: '#/components/schemas/ExportFilter'
-          description: Recursive filter object which supports combining dimension and value filters
-          nullable: true
-        friendlyHeaders:
-          type: boolean
-          description: If true, the exported CSV header will display metric friendly names. If null or not provided, it will display technical names.
-          nullable: true
-        dateFormat:
-          allOf:
-          - $ref: '#/components/schemas/ExportDateFormat'
-          description: Defines how Date values in the response should be formatted. In legacy endpoints, defaults to Legacy if not provided. In the /v1/ endpoints defaults to Iso8601 if not provided.
-          nullable: true
-        fieldDelimiter:
-          allOf:
-          - $ref: '#/components/schemas/ExportCsvDelimiter'
-          description: The field delimiter to use in the csv export. Defaults to semicolon (;).
-          nullable: true
-        decimalSeparator:
-          allOf:
-          - $ref: '#/components/schemas/ExportDecimalSeparator'
-          description: The decimal separator to use in the csv export. Defaults to dot (.).
-          nullable: true
-        fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/ExportField'
-          description: List of fields to be included in the output csv, each as a single column. When not provided, one column for each metric and one column for each metric dimension is generated, in a fixed order.
-          nullable: true
-        encoding:
-          allOf:
-          - $ref: '#/components/schemas/ExportFileEncoding'
-          nullable: true
-      additionalProperties: false
     ListRequest:
       type: object
       properties:
         propertyTechnicalNames:
-          type: array
+          type:
+          - array
+          - 'null'
           items:
             type: string
           description: List of the property technical to be exported. The properties will be exported in that order. If null, all properties of the list will be exported ordered by their technical name.
-          nullable: true
         listFilter:
-          type: array
+          type:
+          - array
+          - 'null'
           items:
             type: string
             format: uuid
           description: List of modalities of the list to filter in. Empty or null means all.
-          nullable: true
         propertyFilters:
-          type: array
+          type:
+          - array
+          - 'null'
           items:
             $ref: '#/components/schemas/PropertyFilter'
           description: List of property filters.
-          nullable: true
         friendlyHeaders:
-          type: boolean
+          type:
+          - boolean
+          - 'null'
           description: If true, the exported CSV header will display list and properties friendly names. If null or false, it will display technical names.
-          nullable: true
         dateFormat:
           allOf:
           - $ref: '#/components/schemas/ExportDateFormat'
           description: Defines how Date values in the response should be formatted. In the /v1/ endpoints will default to Iso8601 if not provided.
-          nullable: true
         fieldDelimiter:
           allOf:
           - $ref: '#/components/schemas/ExportCsvDelimiter'
           description: Field separator, defaults to semicolon (;)
-          nullable: true
         decimalSeparator:
           allOf:
           - $ref: '#/components/schemas/ExportDecimalSeparator'
           description: The decimal separator to use in the csv export. Defaults to dot (.).
-          nullable: true
         encoding:
           allOf:
           - $ref: '#/components/schemas/ExportFileEncoding'
-          nullable: true
       additionalProperties: false
-    ExportField:
-      required:
-      - sourceId
-      - type
-      type: object
-      properties:
-        sourceId:
-          type: string
-          description: 'MetricId if Type = Value, DimensionId if Type = DimensionPivot, null if Type = ScenarioPivot.
-
-
-            If the value is a MetricId, it should be the id of the metric in the live application (i.e. not an id from a snapshot, even if only
-
-            snapshot scenarios are included in this export request)'
-          format: uuid
-          nullable: true
-        type:
-          allOf:
-          - $ref: '#/components/schemas/ExportFieldType'
-          description: Defines the type of field.
-        displayName:
-          type: string
-          description: Optional display name override for the field. When set will be placed in the csv headers.
-          nullable: true
-      additionalProperties: false
-    ExportDateFormat:
+    ExportCsvDelimiter:
       enum:
-      - Legacy
-      - Iso8601
+      - Semicolon
+      - Comma
       type: string
-      description: Defines how Date values in the response should be formatted. Usage of the 'Legacy' option is not recommended, the format will either be '01/21/2054', in other cases '10/12/2024 00:00:00 +00:00'. 'Iso8601' will format dates like '2054-01-21'.
     ExportFilterType:
       enum:
       - And
@@ -458,64 +449,89 @@ components:
           - $ref: '#/components/schemas/FilterCondition'
       additionalProperties: false
       description: Filter on a metric value. Only rows where that metric could be defined (i.e. all of the metric's dimensions are defined) will be filtered by an instance of this.
-    PropertyFilter:
+    ExportField:
       required:
-      - modalityIds
-      - propertyTechnicalName
+      - sourceId
+      - type
       type: object
       properties:
-        propertyTechnicalName:
-          type: string
-        modalityIds:
-          type: array
-          items:
-            type: string
-            format: uuid
+        sourceId:
+          type:
+          - string
+          - 'null'
+          description: 'MetricId if Type = Value, DimensionId if Type = DimensionPivot, null if Type = ScenarioPivot.
+
+
+            If the value is a MetricId, it should be the id of the metric in the live application (i.e. not an id from a snapshot, even if only
+
+            snapshot scenarios are included in this export request)'
+          format: uuid
+        type:
+          allOf:
+          - $ref: '#/components/schemas/ExportFieldType'
+          description: Defines the type of field.
+        displayName:
+          type:
+          - string
+          - 'null'
+          description: Optional display name override for the field. When set will be placed in the csv headers.
       additionalProperties: false
-    MetricRequest:
+    TableRequest:
       type: object
       properties:
-        scenarios:
-          type: array
+        metrics:
+          type:
+          - array
+          - 'null'
           items:
             type: string
             format: uuid
-          description: IDs of scenarios to be exported. If null or empty, only the default scenario will be exported and the export won"t have a scenario column.
-          nullable: true
+        scenarios:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+          description: IDs of scenarios to be exported. If null or empty, only the default scenario will be exported and the export won't have a scenario column.
         filters:
-          type: array
+          type:
+          - array
+          - 'null'
           items:
             $ref: '#/components/schemas/DimensionFilter'
           description: Deprecated - use the ExportFilter field instead. If both this and ExportFilter are not null, they are combined with an implicit AND. Empty filters are treated as including all values.
-          nullable: true
         exportFilter:
           allOf:
           - $ref: '#/components/schemas/ExportFilter'
           description: Recursive filter object which supports combining dimension and value filters
-          nullable: true
         friendlyHeaders:
-          type: boolean
+          type:
+          - boolean
+          - 'null'
           description: If true, the exported CSV header will display metric friendly names. If null or not provided, it will display technical names.
-          nullable: true
         dateFormat:
           allOf:
           - $ref: '#/components/schemas/ExportDateFormat'
           description: Defines how Date values in the response should be formatted. In legacy endpoints, defaults to Legacy if not provided. In the /v1/ endpoints defaults to Iso8601 if not provided.
-          nullable: true
         fieldDelimiter:
           allOf:
           - $ref: '#/components/schemas/ExportCsvDelimiter'
           description: The field delimiter to use in the csv export. Defaults to semicolon (;).
-          nullable: true
         decimalSeparator:
           allOf:
           - $ref: '#/components/schemas/ExportDecimalSeparator'
           description: The decimal separator to use in the csv export. Defaults to dot (.).
-          nullable: true
+        fields:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ExportField'
+          description: List of fields to be included in the output csv, each as a single column. When not provided, one column for each metric and one column for each metric dimension is generated, in a fixed order.
         encoding:
           allOf:
           - $ref: '#/components/schemas/ExportFileEncoding'
-          nullable: true
       additionalProperties: false
   securitySchemes:
     ApiKey:
