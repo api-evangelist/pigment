@@ -211,172 +211,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    MetricRequest:
-      type: object
-      properties:
-        scenarios:
-          type:
-          - array
-          - 'null'
-          items:
-            type: string
-            format: uuid
-          description: IDs of scenarios to be exported. If null or empty, only the default scenario will be exported and the export won"t have a scenario column.
-        filters:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/DimensionFilter'
-          description: Deprecated - use the ExportFilter field instead. If both this and ExportFilter are not null, they are combined with an implicit AND. Empty filters are treated as including all values.
-        exportFilter:
-          allOf:
-          - $ref: '#/components/schemas/ExportFilter'
-          description: Recursive filter object which supports combining dimension and value filters
-        friendlyHeaders:
-          type:
-          - boolean
-          - 'null'
-          description: If true, the exported CSV header will display metric friendly names. If null or not provided, it will display technical names.
-        dateFormat:
-          allOf:
-          - $ref: '#/components/schemas/ExportDateFormat'
-          description: Defines how Date values in the response should be formatted. In legacy endpoints, defaults to Legacy if not provided. In the /v1/ endpoints defaults to Iso8601 if not provided.
-        fieldDelimiter:
-          allOf:
-          - $ref: '#/components/schemas/ExportCsvDelimiter'
-          description: The field delimiter to use in the csv export. Defaults to semicolon (;).
-        decimalSeparator:
-          allOf:
-          - $ref: '#/components/schemas/ExportDecimalSeparator'
-          description: The decimal separator to use in the csv export. Defaults to dot (.).
-        encoding:
-          allOf:
-          - $ref: '#/components/schemas/ExportFileEncoding'
-      additionalProperties: false
-    FilterConditionType:
-      enum:
-      - LessThan
-      - LessThanOrEqual
-      - Equal
-      - NotEqual
-      - GreaterThan
-      - GreaterThanOrEqual
-      - IsNotBlank
-      type: string
-    PropertyFilter:
-      required:
-      - modalityIds
-      - propertyTechnicalName
-      type: object
-      properties:
-        propertyTechnicalName:
-          type: string
-        modalityIds:
-          type: array
-          items:
-            type: string
-            format: uuid
-      additionalProperties: false
-    ExportFilter:
-      required:
-      - type
-      type: object
-      properties:
-        type:
-          allOf:
-          - $ref: '#/components/schemas/ExportFilterType'
-          description: Discriminator for the filter type. Must be set, along with the corresponding field
-        and:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ExportFilter'
-          description: List of filters to combine with an AND. Must be set if Type is And. Should not be empty if not null - empty behaviour is undefined.
-        or:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ExportFilter'
-          description: List of filters to combine with an OR. Must be set if Type is Or. Should not be empty if not null - empty behaviour is undefined.
-        dimension:
-          allOf:
-          - $ref: '#/components/schemas/DimensionFilter'
-          description: Filter on a dimension. Only rows where the target dimension is defined will be filtered by this.
-        value:
-          allOf:
-          - $ref: '#/components/schemas/ValueFilter'
-          description: Filter on a metric value. Only rows where that metric could be defined (i.e. all of the metric's dimensions are defined) will be filtered by an instance of this.
-      additionalProperties: false
-      description: Recursive filter object which supports combining dimension and value filters
-    ExportFieldType:
-      enum:
-      - DimensionField
-      - ScenarioField
-      - ValueField
-      type: string
-    DimensionFilter:
-      required:
-      - dimensionId
-      - modalityIds
-      type: object
-      properties:
-        dimensionId:
-          type: string
-          format: uuid
-        modalityIds:
-          type: array
-          items:
-            type: string
-            format: uuid
-          description: Modalities of the dimension to filter in. Behaviour when empty is undefined - omit the filter instead to allow all values.
-      additionalProperties: false
-      description: Filter on a dimension. Only rows where the target dimension is defined will be filtered by this.
-    ExportDecimalSeparator:
-      enum:
-      - Comma
-      - Dot
-      type: string
-    ExportDateFormat:
-      enum:
-      - Legacy
-      - Iso8601
-      type: string
-      description: Defines how Date values in the response should be formatted. Usage of the 'Legacy' option is not recommended, the format will either be '01/21/2054', in other cases '10/12/2024 00:00:00 +00:00'. 'Iso8601' will format dates like '2054-01-21'.
-    ExportFileEncoding:
-      enum:
-      - Utf8WithBom
-      - Utf8WithoutBom
-      type: string
-    FilterCondition:
-      required:
-      - type
-      type: object
-      properties:
-        type:
-          allOf:
-          - $ref: '#/components/schemas/FilterConditionType'
-        value:
-          oneOf:
-          - type: string
-          - type: number
-          - type: integer
-          - type: boolean
-          description: Value to compare to. Must be the same type as the property being filtered.
-      additionalProperties: false
-      description: 'Filter condition for export filtering.
-
-
-        Important: The ''value'' field is:
-
-        - Required for types: LessThan, LessThanOrEqual, Equal, NotEqual, GreaterThan, GreaterThanOrEqual
-
-        - Must be omitted for type: IsNotBlank'
-      example:
-        type: GreaterThan
-        value: 10
     ListRequest:
       type: object
       properties:
@@ -428,13 +262,6 @@ components:
       - Semicolon
       - Comma
       type: string
-    ExportFilterType:
-      enum:
-      - And
-      - Or
-      - Dimension
-      - Value
-      type: string
     ValueFilter:
       required:
       - condition
@@ -449,33 +276,45 @@ components:
           - $ref: '#/components/schemas/FilterCondition'
       additionalProperties: false
       description: Filter on a metric value. Only rows where that metric could be defined (i.e. all of the metric's dimensions are defined) will be filtered by an instance of this.
-    ExportField:
+    ExportFilter:
       required:
-      - sourceId
       - type
       type: object
       properties:
-        sourceId:
-          type:
-          - string
-          - 'null'
-          description: 'MetricId if Type = Value, DimensionId if Type = DimensionPivot, null if Type = ScenarioPivot.
-
-
-            If the value is a MetricId, it should be the id of the metric in the live application (i.e. not an id from a snapshot, even if only
-
-            snapshot scenarios are included in this export request)'
-          format: uuid
         type:
           allOf:
-          - $ref: '#/components/schemas/ExportFieldType'
-          description: Defines the type of field.
-        displayName:
+          - $ref: '#/components/schemas/ExportFilterType'
+          description: Discriminator for the filter type. Must be set, along with the corresponding field
+        and:
           type:
-          - string
+          - array
           - 'null'
-          description: Optional display name override for the field. When set will be placed in the csv headers.
+          items:
+            $ref: '#/components/schemas/ExportFilter'
+          description: List of filters to combine with an AND. Must be set if Type is And. Should not be empty if not null - empty behaviour is undefined.
+        or:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ExportFilter'
+          description: List of filters to combine with an OR. Must be set if Type is Or. Should not be empty if not null - empty behaviour is undefined.
+        dimension:
+          allOf:
+          - $ref: '#/components/schemas/DimensionFilter'
+          description: Filter on a dimension. Only rows where the target dimension is defined will be filtered by this.
+        value:
+          allOf:
+          - $ref: '#/components/schemas/ValueFilter'
+          description: Filter on a metric value. Only rows where that metric could be defined (i.e. all of the metric's dimensions are defined) will be filtered by an instance of this.
       additionalProperties: false
+      description: Recursive filter object which supports combining dimension and value filters
+    ExportDateFormat:
+      enum:
+      - Legacy
+      - Iso8601
+      type: string
+      description: Defines how Date values in the response should be formatted. Usage of the 'Legacy' option is not recommended, the format will either be '01/21/2054', in other cases '10/12/2024 00:00:00 +00:00'. 'Iso8601' will format dates like '2054-01-21'.
     TableRequest:
       type: object
       properties:
@@ -532,6 +371,167 @@ components:
         encoding:
           allOf:
           - $ref: '#/components/schemas/ExportFileEncoding'
+      additionalProperties: false
+    DimensionFilter:
+      required:
+      - dimensionId
+      - modalityIds
+      type: object
+      properties:
+        dimensionId:
+          type: string
+          format: uuid
+        modalityIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Modalities of the dimension to filter in. Behaviour when empty is undefined - omit the filter instead to allow all values.
+      additionalProperties: false
+      description: Filter on a dimension. Only rows where the target dimension is defined will be filtered by this.
+    ExportFilterType:
+      enum:
+      - And
+      - Or
+      - Dimension
+      - Value
+      type: string
+    ExportField:
+      required:
+      - sourceId
+      - type
+      type: object
+      properties:
+        sourceId:
+          type:
+          - string
+          - 'null'
+          description: 'MetricId if Type = Value, DimensionId if Type = DimensionPivot, null if Type = ScenarioPivot.
+
+
+            If the value is a MetricId, it should be the id of the metric in the live application (i.e. not an id from a snapshot, even if only
+
+            snapshot scenarios are included in this export request)'
+          format: uuid
+        type:
+          allOf:
+          - $ref: '#/components/schemas/ExportFieldType'
+          description: Defines the type of field.
+        displayName:
+          type:
+          - string
+          - 'null'
+          description: Optional display name override for the field. When set will be placed in the csv headers.
+      additionalProperties: false
+    ExportDecimalSeparator:
+      enum:
+      - Comma
+      - Dot
+      type: string
+    FilterConditionType:
+      enum:
+      - LessThan
+      - LessThanOrEqual
+      - Equal
+      - NotEqual
+      - GreaterThan
+      - GreaterThanOrEqual
+      - IsNotBlank
+      type: string
+    MetricRequest:
+      type: object
+      properties:
+        scenarios:
+          type:
+          - array
+          - 'null'
+          items:
+            type: string
+            format: uuid
+          description: IDs of scenarios to be exported. If null or empty, only the default scenario will be exported and the export won"t have a scenario column.
+        filters:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/DimensionFilter'
+          description: Deprecated - use the ExportFilter field instead. If both this and ExportFilter are not null, they are combined with an implicit AND. Empty filters are treated as including all values.
+        exportFilter:
+          allOf:
+          - $ref: '#/components/schemas/ExportFilter'
+          description: Recursive filter object which supports combining dimension and value filters
+        friendlyHeaders:
+          type:
+          - boolean
+          - 'null'
+          description: If true, the exported CSV header will display metric friendly names. If null or not provided, it will display technical names.
+        dateFormat:
+          allOf:
+          - $ref: '#/components/schemas/ExportDateFormat'
+          description: Defines how Date values in the response should be formatted. In legacy endpoints, defaults to Legacy if not provided. In the /v1/ endpoints defaults to Iso8601 if not provided.
+        fieldDelimiter:
+          allOf:
+          - $ref: '#/components/schemas/ExportCsvDelimiter'
+          description: The field delimiter to use in the csv export. Defaults to semicolon (;).
+        decimalSeparator:
+          allOf:
+          - $ref: '#/components/schemas/ExportDecimalSeparator'
+          description: The decimal separator to use in the csv export. Defaults to dot (.).
+        encoding:
+          allOf:
+          - $ref: '#/components/schemas/ExportFileEncoding'
+      additionalProperties: false
+    FilterCondition:
+      required:
+      - type
+      type: object
+      properties:
+        type:
+          allOf:
+          - $ref: '#/components/schemas/FilterConditionType'
+        value:
+          oneOf:
+          - type: string
+          - type: number
+          - type: integer
+          - type: boolean
+          description: Value to compare to. Must be the same type as the property being filtered.
+      additionalProperties: false
+      description: 'Filter condition for export filtering.
+
+
+        Important: The ''value'' field is:
+
+        - Required for types: LessThan, LessThanOrEqual, Equal, NotEqual, GreaterThan, GreaterThanOrEqual
+
+        - Must be omitted for type: IsNotBlank'
+      example:
+        type: GreaterThan
+        value: 10
+    ExportFileEncoding:
+      enum:
+      - Utf8WithBom
+      - Utf8WithoutBom
+      type: string
+    ExportFieldType:
+      enum:
+      - DimensionField
+      - ScenarioField
+      - ValueField
+      type: string
+    PropertyFilter:
+      required:
+      - modalityIds
+      - propertyTechnicalName
+      type: object
+      properties:
+        propertyTechnicalName:
+          type: string
+        modalityIds:
+          type: array
+          items:
+            type: string
+            format: uuid
       additionalProperties: false
   securitySchemes:
     ApiKey:
