@@ -171,155 +171,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ApiImportBlockType:
-      enum:
-      - Metric
-      - List
-      type: string
-    ApiDetailedImportReport:
-      required:
-      - autoCreatedDimensionModalities
-      - blockType
-      - impactedBlocks
-      - summary
-      type: object
-      properties:
-        blockType:
-          allOf:
-          - $ref: '#/components/schemas/ApiImportBlockType'
-        summary:
-          allOf:
-          - $ref: '#/components/schemas/ApiImportStatisticsSummary'
-        impactedBlocks:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiMainTargetReport'
-        autoCreatedDimensionModalities:
-          type: array
-          items:
-            $ref: '#/components/schemas/ApiAutoCreatedDimensionModality'
-      additionalProperties: false
-    ApiImportStatisticsSummary:
-      required:
-      - deletedCount
-      - insertedCount
-      - skippedCount
-      - updatedCount
-      type: object
-      properties:
-        insertedCount:
-          type: integer
-          format: int64
-        updatedCount:
-          type: integer
-          format: int64
-        deletedCount:
-          type: integer
-          format: int64
-        skippedCount:
-          type: integer
-          format: int64
-      additionalProperties: false
-    ApiSkippedData:
-      required:
-      - count
-      - reason
-      - samples
-      type: object
-      properties:
-        count:
-          type: integer
-          format: int64
-        reason:
-          allOf:
-          - $ref: '#/components/schemas/ApiSkippedDataReason'
-        sourceColumnName:
-          type:
-          - string
-          - 'null'
-        samples:
-          type: array
-          items:
-            type: string
-      additionalProperties: false
-    ApiAutoCreatedDimensionModality:
-      required:
-      - blockId
-      - count
-      type: object
-      properties:
-        blockId:
-          type: string
-          format: uuid
-        count:
-          type: integer
-          format: int64
-      additionalProperties: false
-    ApiSkippedDataReason:
-      enum:
-      - ParsingError
-      - MissingModalityUseDefaultOrNullModality
-      - MissingModalitySkippedDataRow
-      - MissingWriteAccessRights
-      - MissingModalitiesFromSnapshot
-      type: string
-    ApiImportStatus:
-      enum:
-      - InProgress
-      - Completed
-      - Failed
-      type: string
-    ApiImportErrorDto:
-      required:
-      - description
-      - name
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-      additionalProperties: false
-    ApiImportReportDto:
-      required:
-      - createdAt
-      - importId
-      - importStatus
-      type: object
-      properties:
-        importId:
-          type: string
-          format: uuid
-        createdAt:
-          type: string
-          format: date-time
-        completedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-        importStatus:
-          allOf:
-          - $ref: '#/components/schemas/ApiImportStatus'
-        errorsDetails:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ApiImportErrorDto'
-        detailedReport:
-          allOf:
-          - $ref: '#/components/schemas/ApiDetailedImportReport'
-      additionalProperties: false
-    ApiImportResultDto:
-      required:
-      - importId
-      type: object
-      properties:
-        importId:
-          type: string
-          format: uuid
-      additionalProperties: false
     ApiMainTargetReport:
       required:
       - blockId
@@ -350,6 +201,155 @@ components:
         deletedCount:
           type: integer
           format: int64
+      additionalProperties: false
+    ApiAutoCreatedDimensionModality:
+      required:
+      - blockId
+      - count
+      type: object
+      properties:
+        blockId:
+          type: string
+          format: uuid
+        count:
+          type: integer
+          format: int64
+      additionalProperties: false
+    ApiImportResultDto:
+      required:
+      - importId
+      type: object
+      properties:
+        importId:
+          type: string
+          format: uuid
+      additionalProperties: false
+    ApiImportStatus:
+      enum:
+      - InProgress
+      - Completed
+      - Failed
+      type: string
+    ApiDetailedImportReport:
+      required:
+      - autoCreatedDimensionModalities
+      - blockType
+      - impactedBlocks
+      - summary
+      type: object
+      properties:
+        blockType:
+          allOf:
+          - $ref: '#/components/schemas/ApiImportBlockType'
+        summary:
+          allOf:
+          - $ref: '#/components/schemas/ApiImportStatisticsSummary'
+        impactedBlocks:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiMainTargetReport'
+        autoCreatedDimensionModalities:
+          type: array
+          items:
+            $ref: '#/components/schemas/ApiAutoCreatedDimensionModality'
+      additionalProperties: false
+    ApiSkippedData:
+      required:
+      - count
+      - reason
+      - samples
+      type: object
+      properties:
+        count:
+          type: integer
+          format: int64
+        reason:
+          allOf:
+          - $ref: '#/components/schemas/ApiSkippedDataReason'
+        sourceColumnName:
+          type:
+          - string
+          - 'null'
+        samples:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    ApiImportErrorDto:
+      required:
+      - description
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+      additionalProperties: false
+    ApiImportBlockType:
+      enum:
+      - Metric
+      - List
+      type: string
+    ApiImportStatisticsSummary:
+      required:
+      - deletedCount
+      - insertedCount
+      - skippedCount
+      - updatedCount
+      type: object
+      properties:
+        insertedCount:
+          type: integer
+          format: int64
+        updatedCount:
+          type: integer
+          format: int64
+        deletedCount:
+          type: integer
+          format: int64
+        skippedCount:
+          type: integer
+          format: int64
+      additionalProperties: false
+    ApiSkippedDataReason:
+      enum:
+      - ParsingError
+      - MissingModalityUseDefaultOrNullModality
+      - MissingModalitySkippedDataRow
+      - MissingWriteAccessRights
+      - MissingModalitiesFromSnapshot
+      type: string
+    ApiImportReportDto:
+      required:
+      - createdAt
+      - importId
+      - importStatus
+      type: object
+      properties:
+        importId:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        completedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        importStatus:
+          allOf:
+          - $ref: '#/components/schemas/ApiImportStatus'
+        errorsDetails:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ApiImportErrorDto'
+        detailedReport:
+          allOf:
+          - $ref: '#/components/schemas/ApiDetailedImportReport'
       additionalProperties: false
   securitySchemes:
     ApiKey:

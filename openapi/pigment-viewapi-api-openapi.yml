@@ -50,11 +50,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ViewMetadataType:
-      enum:
-      - Public
-      - Personal
-      type: string
     ViewMetadata:
       required:
       - id
@@ -71,6 +66,11 @@ components:
           allOf:
           - $ref: '#/components/schemas/ViewMetadataType'
       additionalProperties: false
+    ViewMetadataType:
+      enum:
+      - Public
+      - Personal
+      type: string
   securitySchemes:
     ApiKey:
       type: http

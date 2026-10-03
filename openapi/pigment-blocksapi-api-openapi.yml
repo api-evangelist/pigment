@@ -46,13 +46,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    BlockMetadataType:
-      enum:
-      - DimensionList
-      - TransactionList
-      - Metric
-      - Table
-      type: string
     BlockMetadata:
       required:
       - id
@@ -69,6 +62,13 @@ components:
           allOf:
           - $ref: '#/components/schemas/BlockMetadataType'
       additionalProperties: false
+    BlockMetadataType:
+      enum:
+      - DimensionList
+      - TransactionList
+      - Metric
+      - Table
+      type: string
   securitySchemes:
     ApiKey:
       type: http
